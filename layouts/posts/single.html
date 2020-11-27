@@ -72,7 +72,6 @@
   {{ partial "footer.html" . }}
 
   </div>
-</body>
 
 <link rel="stylesheet" href={{ "/lib/font-awesome/css/all.min.css" | relURL }}>
 <script src={{ "/lib/jquery/jquery.min.js" | relURL }}></script>
@@ -98,4 +97,6 @@
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 {{ end }}
+{{ partial "footerInclude.html" . }}
+</body>
 </html>
