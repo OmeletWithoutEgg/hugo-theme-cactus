@@ -1209,7 +1209,7 @@ article .content .caption {
   }
   .article-tag:before,
   .article-category:before {
-    content: "|";
+    content: " | ";
   }
 }
 #archive .post-list {
