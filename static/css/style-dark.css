@@ -1203,10 +1203,12 @@ article .content .caption {
   background-repeat: repeat-x;
 }
 @media (min-width: 480px) {
+  .postdate,
   .article-tag,
   .article-category {
     display: inline;
   }
+  .postdate:before,
   .article-tag:before,
   .article-category:before {
     content: " | ";
