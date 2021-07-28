@@ -1,3 +1,4 @@
+/*
 (() => {
 
   function createCopyButton(codeNode) {
@@ -34,3 +35,4 @@
   })
 
 })()
+*/
