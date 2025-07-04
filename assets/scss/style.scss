@@ -1,5 +1,8 @@
 @import "variables";
-@import "colors/{{ site.Params.colortheme | default "white" }}";
+@import "colors/dark";
+@import "colors/white";
+@import "colors/light";
+@import "colors/classic";
 @import "util";
 @import "mixins";
 @import "extend";
@@ -16,15 +19,15 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
-  border-top: 2px solid $color-text;
+  border-top: 2px solid var(--color-text);
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
 }
 body {
   margin: 0;
   height: 100%;
-  background-color: $color-background;
-  color: $color-text;
+  background-color: var(--color-background);
+  color: var(--color-text);
   font-display: swap;
   font-weight: 400;
   font-size: $font-size;
@@ -51,20 +54,20 @@ body {
     @include hyphens(manual);
   }
   a {
-    color: $color-text;
+    color: var(--color-text);
     text-decoration: none;
 
-    @include underline(5px, $color-text);
+    @include underline(5px, var(--color-text));
 
     &:hover {
-      background-image: linear-gradient(transparent, transparent 4px, $color-link 4px, $color-link);
+      background-image: linear-gradient(transparent, transparent 4px, var(--color-link) 4px, var(--color-link));
     }
   }
   a.icon {
     background: none;
 
     &:hover {
-      color: $color-link;
+      color: var(--color-link);
     }
   }
   h1 a,
@@ -85,7 +88,7 @@ body {
   h4 a:hover,
   h5 a:hover,
   h6 a:hover {
-    @include underline(6px, $color-link);
+    @include underline(6px, var(--color-link));
   }
   h6 {
     a {
@@ -96,7 +99,7 @@ body {
   }
   h6 {
     a:hover {
-      @include underline(6px, $color-link);
+      @include underline(6px, var(--color-link));
     }
   }
 }
@@ -151,7 +154,7 @@ body {
 pre {
   overflow-x: auto;
   padding: 15px 15px 10px 15px;
-  border: 1px dotted $color-border;
+  border: 1px dotted var(--color-border);
   border-radius: 2px;
   -webkit-border-radius: 2px;
   font-size: 13px;
@@ -194,7 +197,7 @@ pre {
 code {
   font-family: $font-family-mono;
   padding: 0 5px;
-  border: 1px dotted $color-border;
+  border: 1px dotted var(--color-border);
   border-radius: 2px;
   -webkit-border-radius: 2px;
 }

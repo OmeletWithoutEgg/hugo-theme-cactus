@@ -5,9 +5,30 @@ $color-background-code: lighten($color-background, 2%);
 $color-border: #666;
 $color-meta: #666;
 $color-meta-code: #666;
+$color-meta-lighten: lighten($color-meta, 20%);
+$color-meta-darken: darken($color-meta, 20%);
 $color-link: rgba(212, 128, 170, 1);
 $color-text: #c9cacc;
 $color-accent-3: #cccccc;
 $color-accent-2: #eeeeee;
 $color-accent-1: #2bbc8a;
 $color-quote: #ccffb6;
+
+// default
+[data-theme="dark"] {
+  --color-background: #{$color-background};
+  --color-footer-mobile-1: #{$color-footer-mobile-1};
+  --color-footer-mobile-2: #{$color-footer-mobile-2};
+  --color-background-code: #{$color-background-code};
+  --color-border: #{$color-border};
+  --color-meta: #{$color-meta};
+  --color-meta-code: #{$color-meta-code};
+  --color-meta-lighten: #{$color-meta-lighten};
+  --color-meta-darken: #{$color-meta-darken};
+  --color-link: #{$color-link};
+  --color-text: #{$color-text};
+  --color-accent-3: #{$color-accent-3};
+  --color-accent-2: #{$color-accent-2};
+  --color-accent-1: #{$color-accent-1};
+  --color-quote: #{$color-quote};
+}
