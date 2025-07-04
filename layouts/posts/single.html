@@ -15,9 +15,9 @@
         <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name">
             {{ if (isSet .Params "author") }}
-              {{ .Params.Author }}
+              {{ .Params.Author }}&nbsp;
             {{ else }}
-              {{ .Site.Params.DefaultAuthor }}
+              {{ .Site.Params.DefaultAuthor }}&nbsp;
             {{ end }}
           </span>
         </span>
