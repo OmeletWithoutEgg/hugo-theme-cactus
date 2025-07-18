@@ -2,11 +2,9 @@
   <div id="footer-post">
 
     <div id="nav-footer" style="display: none">
-      <ul>
-        {{ range .Site.Menus.main }} 
-          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-        {{ end }}
-      </ul>
+      {{ range site.Menus.main }}
+        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+      {{ end }}
     </div>
 
     {{ if not .Site.Params.tocInline }}
