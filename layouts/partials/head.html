@@ -53,6 +53,8 @@
   {{ template "_internal/twitter_cards.html" . }}
 
   {{ if .Site.Config.Services.GoogleAnalytics.ID }}
-    {{ template "_internal/google_analytics.html" . }}
+    {{ if hugo.IsProduction }}
+      {{ template "_internal/google_analytics.html" . }}
+    {{ end }}
   {{ end }}
 </head>
