@@ -13,7 +13,7 @@
 
       {{ with resources.Get "logo.png" }}
         {{ with .Resize "128x webp" }}
-          <img id="logo" src="{{ .RelPermalink }}">
+          <img id="logo" src="{{ .RelPermalink }}" alt="logo">
         {{ end }}
       {{ end }}
     </picture>
