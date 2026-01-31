@@ -1,10 +1,26 @@
 <header id="header">
   <a href="{{ .Site.BaseURL }}">
-    <img id="logo" src={{ .Site.Params.Logo | default "images/logo.png" | relURL }} alt="logo">
-    </img>
-  <div id="title">
-    <h1>{{ .Site.Title }}</h1>
-  </div>
+
+    <picture>
+      {{ with resources.Get "logo.png" }}
+        {{ with .Process "webp" }}
+          <source
+              srcset="{{ .RelPermalink }}"
+              media="(min-width: 768px)"
+              />
+        {{ end }}
+      {{ end }}
+
+      {{ with resources.Get "logo.png" }}
+        {{ with .Resize "128x webp" }}
+          <img id="logo" src="{{ .RelPermalink }}">
+        {{ end }}
+      {{ end }}
+    </picture>
+
+    <div id="title">
+      <h1>{{ .Site.Title }}</h1>
+    </div>
   </a>
   <div id="nav">
     <ul>
