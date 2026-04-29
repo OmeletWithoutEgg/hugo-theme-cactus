@@ -88,7 +88,7 @@
   {{ $showProjectsList := false }}
   {{ if (isset .Site.Params "showprojectslist") }}
     {{ $showProjectsList = .Site.Params.showProjectsList }}
-  {{ else if .Site.Data.projects }}
+  {{ else if hugo.Data.projects }}
     {{ $showProjectsList = true }}
   {{ end }}
   {{ if $showProjectsList }}
@@ -99,7 +99,7 @@
   <section id="projects">
     <span class="h1"><a href="{{ $projectsUrl }}">Projects</a></span>
     <ul class="project-list">
-        {{ range .Site.Data.projects.list }}
+        {{ range hugo.Data.projects.list }}
         <li class="project-item">
           <a href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }}
         </li>
