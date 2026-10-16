@@ -1,12 +1,14 @@
-@import "variables";
-@import "colors/dark";
-@import "colors/white";
-@import "colors/light";
-@import "colors/classic";
-@import "util";
-@import "mixins";
-@import "extend";
-@import "fonts";
+@use "sass:meta";
+@use "variables";
+@use "mixins";
+
+@use "colors/dark";
+@use "colors/white";
+@use "colors/light";
+@use "colors/classic";
+@use "util";
+@use "extend";
+@use "fonts";
 
 // global-reset()
 
@@ -30,15 +32,13 @@ body {
   color: var(--color-text);
   font-display: swap;
   font-weight: 400;
-  font-size: $font-size;
-  font-family: $font-family-body;
-  line-height: $line-height;
+  font-size: variables.$font-size;
+  font-family: variables.$font-family-body;
+  line-height: variables.$line-height;
   text-rendering: geometricPrecision;
   flex: 1;
 
-  @include antialias();
-
-  @extend $base-style !optional;
+  @include mixins.antialias();
 }
 .content {
   position: relative;
@@ -48,16 +48,16 @@ body {
   overflow-wrap: break-word;
 
   p {
-    @include hyphens(auto);
+    @include mixins.hyphens(auto);
   }
   code {
-    @include hyphens(manual);
+    @include mixins.hyphens(manual);
   }
   a {
     color: var(--color-text);
     text-decoration: none;
 
-    @include underline(5px, var(--color-text));
+    @include mixins.underline(5px, var(--color-text));
 
     &:hover {
       background-image: linear-gradient(transparent, transparent 4px, var(--color-link) 4px, var(--color-link));
@@ -88,7 +88,7 @@ body {
   h4 a:hover,
   h5 a:hover,
   h6 a:hover {
-    @include underline(6px, var(--color-link));
+    @include mixins.underline(6px, var(--color-link));
   }
   h6 {
     a {
@@ -99,7 +99,7 @@ body {
   }
   h6 {
     a:hover {
-      @include underline(6px, var(--color-link));
+      @include mixins.underline(6px, var(--color-link));
     }
   }
 }
@@ -118,7 +118,7 @@ body {
   }
 }
 .max-width {
-  max-width: $page-width;
+  max-width: variables.$page-width;
 }
 @media (max-width: 480px) {  // smaller margins at smaller screen widths
   .px3 {
@@ -137,19 +137,19 @@ body {
   }
 }
 
-@import "partial/header";
-@import "partial/post/actions_desktop";
-@import "partial/post/actions_mobile";
-@import "partial/index";
-@import "partial/article";
-@import "partial/archive";
-@import "partial/comments";
-@import "partial/footer";
-@import "partial/pagination";
-@import "partial/search";
-@import "partial/tags";
-@import "partial/tooltip";
-@import "partial/categories";
+@include meta.load-css("partial/header");
+@include meta.load-css("partial/post/actions_desktop");
+@include meta.load-css("partial/post/actions_mobile");
+@include meta.load-css("partial/index");
+@include meta.load-css("partial/article");
+@include meta.load-css("partial/archive");
+@include meta.load-css("partial/comments");
+@include meta.load-css("partial/footer");
+@include meta.load-css("partial/pagination");
+@include meta.load-css("partial/search");
+@include meta.load-css("partial/tags");
+@include meta.load-css("partial/tooltip");
+@include meta.load-css("partial/categories");
 
 pre {
   overflow-x: auto;
@@ -158,7 +158,7 @@ pre {
   border-radius: 2px;
   -webkit-border-radius: 2px;
   font-size: 13px;
-  font-family: $font-family-mono;
+  font-family: variables.$font-family-mono;
   line-height: 22px;
   position: relative;
 
@@ -195,7 +195,7 @@ pre {
 }
 
 code {
-  font-family: $font-family-mono;
+  font-family: variables.$font-family-mono;
   padding: 0 5px;
   border: 1px dotted var(--color-border);
   border-radius: 2px;

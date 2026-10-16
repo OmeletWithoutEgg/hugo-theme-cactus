@@ -16,8 +16,8 @@
   <link rel="canonical" href="{{ .Permalink }}">
   <link rel="icon" type="image/png" href="{{ "images/favicon.ico"  | relURL }}" />
 
-  {{- $options := (dict "enableSourceMap" "true") -}}
-  {{- with resources.Get "scss/style.scss" | css.Sass $options }}
+  {{ $opts := dict "transpiler" "dartsass" "enableSourceMap" "true" }}
+  {{- with resources.Get "scss/style.scss" | toCSS $opts }}
     {{- if hugo.IsDevelopment }}
       <link rel="stylesheet" href="{{ .RelPermalink }}">
     {{- else }}

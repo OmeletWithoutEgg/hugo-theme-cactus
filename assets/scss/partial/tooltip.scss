@@ -1,3 +1,5 @@
+@use "../variables";
+
 // ref: https://github.com/primer/primer/blob/master/modules/primer-tooltips/lib/tooltips.scss
 .tooltipped {
   position: relative;
@@ -12,9 +14,9 @@
   color: var(--color-background);
   font-display: swap;
   font-weight: 400;
-  font-size: $font-size * 0.8;
-  font-family: $font-family-body;
-  line-height: $line-height;
+  font-size: variables.$font-size * 0.8;
+  font-family: variables.$font-family-body;
+  line-height: variables.$line-height;
   text-rendering: geometricPrecision;
   text-align: center;
   word-wrap: break-word;

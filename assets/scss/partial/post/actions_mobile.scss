@@ -1,3 +1,5 @@
+@use "../../mixins";
+
 #footer-post {
   position: fixed;
   right: 0;
@@ -32,7 +34,7 @@
       font-size: 1em;
     }
     a:hover {
-      @include underline(5px, var(--color-accent-1));
+      @include mixins.underline(5px, var(--color-accent-1));
     }
     ul {
       display: table;

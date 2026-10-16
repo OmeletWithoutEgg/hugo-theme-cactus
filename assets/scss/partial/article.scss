@@ -1,3 +1,5 @@
+@use "../mixins";
+
 article {
   header {
     .posttitle {
@@ -136,13 +138,13 @@ article {
   .tag-link {
     &:before {
       content: "#";
-      @include underline(10px, var(--color-link));
+      @include mixins.underline(10px, var(--color-link));
     }
   }
 }
 .article-category {
   .category-link {
-    @include underline(10px, var(--color-link));
+    @include mixins.underline(10px, var(--color-link));
   }
 }
 @media (min-width: 480px) {

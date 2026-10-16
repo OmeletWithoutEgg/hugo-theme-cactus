@@ -1,3 +1,6 @@
+@use "variables";
+@use "mixins";
+
 // $base-style
 h1,
 .h1 {
@@ -10,7 +13,7 @@ h1,
   font-style: normal;
   font-size: 1.5em;
 
-  @include antialias();
+  @include mixins.antialias();
 }
 h2,
 .h2 {
@@ -83,7 +86,7 @@ abbr {
 ul
 ol
 dl {
-  line-height: $line-height;
+  line-height: variables.$line-height;
 }
 ul ul,
 ol ul,
@@ -102,7 +105,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: $font-size - 2px;
+  font-size: variables.$font-size - 2px;
   overflow: auto;
   display: block;
 }
@@ -111,7 +114,7 @@ th {
   border-bottom: 1px dashed var(--color-border);
   color: var(--color-accent-2);
   font-weight: bold;
-  font-size: $font-size - 1px;
+  font-size: variables.$font-size - 1px;
 }
 td {
   padding: 0 8px;
