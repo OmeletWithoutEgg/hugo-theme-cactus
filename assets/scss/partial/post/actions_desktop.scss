@@ -8,6 +8,16 @@
   float: right;
   z-index: 100;
 
+  // The hidden menu still determines this fixed wrapper's size. Let clicks
+  // through its empty area, including when the menu is collapsed.
+  pointer-events: none;
+
+  a,
+  button,
+  #toc {
+    pointer-events: auto;
+  }
+
   a {
     background: none;
     color: inherit;
