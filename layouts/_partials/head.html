@@ -49,12 +49,12 @@
     {{ end }}
   {{ end }}
 
-  {{ template "_internal/opengraph.html" . }}
-  {{ template "_internal/twitter_cards.html" . }}
+  {{ partial "opengraph.html" . }}
+  {{ partial "twitter_cards.html" . }}
 
   {{ if .Site.Config.Services.GoogleAnalytics.ID }}
     {{ if hugo.IsProduction }}
-      {{ template "_internal/google_analytics.html" . }}
+      {{ partial "google_analytics.html" . }}
     {{ end }}
   {{ end }}
 </head>

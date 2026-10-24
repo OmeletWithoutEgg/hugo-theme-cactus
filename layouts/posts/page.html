@@ -45,12 +45,12 @@
                 {{ end }}
               </div>
             {{ end }}
-            {{ if gt .Params.tags 0 }}
+            {{ with .GetTerms "tags" }}
               <div class="article-tag">
                 <i class="fas fa-tag"></i>
-                {{ range $index, $value := .Params.tags }}
+                {{ range $index, $term := . }}
                   {{ if gt $index 0 }} {{ print ", " }} {{ end }}
-                  <a class="tag-link" href="{{ "/tags/" | relLangURL }}{{ $value | urlize }}/" rel="tag">{{ $value }}</a>
+                  <a class="tag-link" href="{{ $term.RelPermalink }}" rel="tag">{{ $term.Data.Term }}</a>
                 {{ end }}
               </div>
             {{ end }}

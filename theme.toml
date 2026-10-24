@@ -6,7 +6,7 @@ homepage = "https://github.com/monkeyWzr/hugo-theme-cactus"
 demosite = "https://www.takuzen.me/hugo-theme-cactus/"
 tags = ["blog", "responsive", "clean"]
 features = ["mathjax", "customizable", "color"]
-min_version = "0.55"
+min_version = "0.146.0"
 
 # If the theme has a single author
 [author]
