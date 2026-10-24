@@ -1,13 +1,26 @@
 {{ $pag := $.Paginator }}
 {{ if gt $pag.TotalPages 1 }}
-  <div class="pagination">
+  <nav class="pagination" aria-label="Pagination">
     {{ if $pag.HasPrev }}
-      <a href="{{ $pag.Prev.URL }}"><i class="fas fa-angle-left"></i></a>
+      <a class="pagination-first" href="{{ $pag.First.URL }}" aria-label="First page" title="First page"><i class="fas fa-angle-double-left" aria-hidden="true"></i></a>
+    {{ else }}
+      <span class="pagination-first" aria-disabled="true" aria-label="First page" title="First page"><i class="fas fa-angle-double-left" aria-hidden="true"></i></span>
     {{ end }}
-    <span class="page-number">Page {{ $pag.PageNumber }} of {{ $pag.TotalPages }}</span>
+    {{ if $pag.HasPrev }}
+      <a class="pagination-prev" href="{{ $pag.Prev.URL }}" rel="prev" aria-label="Previous page"><i class="fas fa-angle-left" aria-hidden="true"></i></a>
+    {{ else }}
+      <span class="pagination-prev" aria-disabled="true" aria-label="Previous page"><i class="fas fa-angle-left" aria-hidden="true"></i></span>
+    {{ end }}
+    <span class="page-number" aria-current="page">Page {{ $pag.PageNumber }} of {{ $pag.TotalPages }}</span>
     {{ if $pag.HasNext }}
-      <a href="{{ $pag.Next.URL }}"><i class="fas fa-angle-right"></i>
-      </a>
+      <a class="pagination-next" href="{{ $pag.Next.URL }}" rel="next" aria-label="Next page"><i class="fas fa-angle-right" aria-hidden="true"></i></a>
+    {{ else }}
+      <span class="pagination-next" aria-disabled="true" aria-label="Next page"><i class="fas fa-angle-right" aria-hidden="true"></i></span>
     {{ end }}
-  </div>
+    {{ if $pag.HasNext }}
+      <a class="pagination-last" href="{{ $pag.Last.URL }}" aria-label="Last page" title="Last page"><i class="fas fa-angle-double-right" aria-hidden="true"></i></a>
+    {{ else }}
+      <span class="pagination-last" aria-disabled="true" aria-label="Last page" title="Last page"><i class="fas fa-angle-double-right" aria-hidden="true"></i></span>
+    {{ end }}
+  </nav>
 {{ end }}

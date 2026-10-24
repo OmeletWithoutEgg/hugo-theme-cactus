@@ -22,6 +22,8 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
+  // Keep centered controls aligned when page heights toggle the scrollbar.
+  scrollbar-gutter: stable;
   border-top: 2px solid var(--color-text);
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
