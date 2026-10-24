@@ -19,6 +19,7 @@
       </div>
       <span>    
         <a class="" href="{{ .Permalink }}">{{ if .Title }} {{ .Title }} {{ else }} Untitled {{ end }}</a>
+        {{ partial "draft-label.html" . }}
       </span>
     </li>
     {{ end }}

@@ -1,5 +1,6 @@
 {{ define "main" }}
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+{{ partial "draft-label.html" . }}
 <!-- TODO: gallery -->
   <div class="content" itemprop="articleBody">
   {{ if (eq .Type "search") }}
