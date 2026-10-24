@@ -6,6 +6,24 @@ A hugo theme for personal blog. Fork from hexo theme [cactus](https://github.com
 
 Some works are still in progress. See [TODOS](#todos) below.
 
+## Template structure
+
+This fork uses the [Hugo v0.146.0+ template system](https://gohugo.io/templates/new-templatesystem-overview/).
+Hugo Extended and Dart Sass are required; the current site is tested with Hugo 0.168.0.
+
+- `layouts/baseof.html`: shared shell for the home page, lists, and regular pages.
+- `layouts/home.html`: home page.
+- `layouts/page.html`: regular pages such as About.
+- `layouts/posts/page.html`: article layout with post navigation and metadata.
+- `layouts/list.html`: section archives and individual taxonomy term listings.
+- `layouts/taxonomy.html`: tag and category overview pages.
+- `layouts/_partials/`: reusable fragments and optional head/body hooks.
+- `layouts/_markup/`: Markdown render hooks.
+
+Site overrides must use the same paths (for example, `layouts/_partials/optional-body.html`).
+A site-specific search page can use `layouts/search.html`, with its JSON index in `layouts/home.json`.
+The public search index URL remains `/index.json`.
+
 ## Install
 
 1. clone cactus to your hugo site's `themes` folder.
