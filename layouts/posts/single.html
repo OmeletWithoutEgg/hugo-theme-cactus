@@ -75,7 +75,7 @@
 
     </div>
 
-    <script src={{ "/js/main.js" | relURL }}></script>
+    {{ partial "scripts.html" . }}
     {{ $mathjax := false }}
     {{ if isset .Params "mathjax" }}
       {{ $mathjax = .Params.mathjax }}
