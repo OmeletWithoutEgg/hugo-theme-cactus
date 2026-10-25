@@ -1,0 +1,12 @@
+{{- $name := .name -}}
+{{- $icon := resources.Get (printf "icons/%s.svg" $name) -}}
+{{- if not $icon -}}
+  {{- warnf "No SVG icon for %q; using the link icon. Add assets/icons/%s.svg to override it." $name $name -}}
+  {{- $icon = resources.Get "icons/link.svg" -}}
+{{- end -}}
+{{- $class := "svg-icon" -}}
+{{- with .size -}}
+  {{- $class = printf "%s svg-icon--%s" $class . -}}
+{{- end -}}
+{{- $attributes := printf `<svg class="%s" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" ` $class -}}
+{{- replace $icon.Content "<svg " $attributes | safeHTML -}}

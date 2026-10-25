@@ -32,14 +32,14 @@
             {{ $showReadTime := .Site.Params.showReadTime | default false }}
             {{ if $showReadTime }}
               <div class="article-read-time">
-                <i class="far fa-clock"></i>
+                {{ partial "icon.html" (dict "name" "clock") }}
                 {{ $readTime := math.Round (div (countwords .Content) 220.0) }}
                 {{ $readTime }} minute read
               </div>
             {{ end }}
             {{ if gt .Params.categories 0 }}
               <div class="article-category">
-                <i class="fas fa-archive"></i>
+                {{ partial "icon.html" (dict "name" "archive") }}
                 {{ range $index, $value := .Params.categories }}
                   {{ if gt $index 0 }} {{ print ", " }} {{ end }}
                   <a class="category-link" href="{{ "/categories/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
@@ -48,7 +48,7 @@
             {{ end }}
             {{ with .GetTerms "tags" }}
               <div class="article-tag">
-                <i class="fas fa-tag"></i>
+                {{ partial "icon.html" (dict "name" "tag") }}
                 {{ range $index, $term := . }}
                   {{ if gt $index 0 }} {{ print ", " }} {{ end }}
                   <a class="tag-link" href="{{ $term.RelPermalink }}" rel="tag">{{ $term.Data.Term }}</a>

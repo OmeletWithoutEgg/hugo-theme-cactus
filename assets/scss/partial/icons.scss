@@ -1,0 +1,17 @@
+.svg-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -.125em;
+  fill: currentColor;
+  // Handle clicks and hover on the enclosing link or button.
+  pointer-events: none;
+}
+.svg-icon--lg {
+  font-size: 1.333333em;
+  vertical-align: -.225em;
+}
+.svg-icon--2x {
+  font-size: 2em;
+}

@@ -25,7 +25,7 @@
   <div id="nav">
     <ul>
       <li class="icon">
-        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+        <a href="#" aria-label="Menu">{{ partial "icon.html" (dict "name" "bars" "size" "2x") }}</a>
       </li>
       {{ range site.Menus.main }}
         <li><a href="{{ .URL }}">{{ .Name }}</a></li>

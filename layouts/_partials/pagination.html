@@ -2,25 +2,25 @@
 {{ if gt $pag.TotalPages 1 }}
   <nav class="pagination" aria-label="Pagination">
     {{ if $pag.HasPrev }}
-      <a class="pagination-first" href="{{ $pag.First.URL }}" aria-label="First page" title="First page"><i class="fas fa-angle-double-left" aria-hidden="true"></i></a>
+      <a class="pagination-first" href="{{ $pag.First.URL }}" aria-label="First page" title="First page">{{ partial "icon.html" (dict "name" "angle-double-left") }}</a>
     {{ else }}
-      <span class="pagination-first" aria-disabled="true" aria-label="First page" title="First page"><i class="fas fa-angle-double-left" aria-hidden="true"></i></span>
+      <span class="pagination-first" aria-disabled="true" aria-label="First page" title="First page">{{ partial "icon.html" (dict "name" "angle-double-left") }}</span>
     {{ end }}
     {{ if $pag.HasPrev }}
-      <a class="pagination-prev" href="{{ $pag.Prev.URL }}" rel="prev" aria-label="Previous page"><i class="fas fa-angle-left" aria-hidden="true"></i></a>
+      <a class="pagination-prev" href="{{ $pag.Prev.URL }}" rel="prev" aria-label="Previous page">{{ partial "icon.html" (dict "name" "angle-left") }}</a>
     {{ else }}
-      <span class="pagination-prev" aria-disabled="true" aria-label="Previous page"><i class="fas fa-angle-left" aria-hidden="true"></i></span>
+      <span class="pagination-prev" aria-disabled="true" aria-label="Previous page">{{ partial "icon.html" (dict "name" "angle-left") }}</span>
     {{ end }}
     <span class="page-number" aria-current="page">Page {{ $pag.PageNumber }} of {{ $pag.TotalPages }}</span>
     {{ if $pag.HasNext }}
-      <a class="pagination-next" href="{{ $pag.Next.URL }}" rel="next" aria-label="Next page"><i class="fas fa-angle-right" aria-hidden="true"></i></a>
+      <a class="pagination-next" href="{{ $pag.Next.URL }}" rel="next" aria-label="Next page">{{ partial "icon.html" (dict "name" "angle-right") }}</a>
     {{ else }}
-      <span class="pagination-next" aria-disabled="true" aria-label="Next page"><i class="fas fa-angle-right" aria-hidden="true"></i></span>
+      <span class="pagination-next" aria-disabled="true" aria-label="Next page">{{ partial "icon.html" (dict "name" "angle-right") }}</span>
     {{ end }}
     {{ if $pag.HasNext }}
-      <a class="pagination-last" href="{{ $pag.Last.URL }}" aria-label="Last page" title="Last page"><i class="fas fa-angle-double-right" aria-hidden="true"></i></a>
+      <a class="pagination-last" href="{{ $pag.Last.URL }}" aria-label="Last page" title="Last page">{{ partial "icon.html" (dict "name" "angle-double-right") }}</a>
     {{ else }}
-      <span class="pagination-last" aria-disabled="true" aria-label="Last page" title="Last page"><i class="fas fa-angle-double-right" aria-hidden="true"></i></span>
+      <span class="pagination-last" aria-disabled="true" aria-label="Last page" title="Last page">{{ partial "icon.html" (dict "name" "angle-double-right") }}</span>
     {{ end }}
   </nav>
 {{ end }}
