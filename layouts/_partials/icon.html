@@ -9,4 +9,11 @@
   {{- $class = printf "%s svg-icon--%s" $class . -}}
 {{- end -}}
 {{- $attributes := printf `<svg class="%s" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" ` $class -}}
-{{- replace $icon.Content "<svg " $attributes | safeHTML -}}
+{{- /* Preserve attribution as SVG description text even when comments are minified away. */ -}}
+{{- $content := $icon.Content -}}
+{{- range findRE `(?s)<!--!.*?-->` $content -}}
+  {{- $notice := strings.TrimPrefix "<!--!" . | strings.TrimSuffix "-->" | strings.TrimSpace -}}
+  {{- $description := printf "<desc>%s</desc>" (htmlEscape $notice) -}}
+  {{- $content = replace $content . $description -}}
+{{- end -}}
+{{- replace $content "<svg " $attributes | safeHTML -}}
