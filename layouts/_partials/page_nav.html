@@ -1,7 +1,7 @@
 <div id="header-post">
   <a id="menu-icon" href="#" aria-label="Menu">{{ partial "icon.html" (dict "name" "bars" "size" "lg") }}</a>
   <a id="menu-icon-tablet" href="#" aria-label="Menu">{{ partial "icon.html" (dict "name" "bars" "size" "lg") }}</a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page">{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }}</a>
+  <a id="top-icon-tablet" href="#" data-scroll-top style="display:none;" aria-label="Top of Page">{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }}</a>
   <span id="menu">
     <span id="nav">
       <ul>
@@ -15,25 +15,25 @@
       <ul>
         {{ if .Prev }}
         <li>
-          <a class="icon" href=" {{ .Prev.Permalink }}" aria-label="Previous" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();">
+          <a class="icon" href=" {{ .Prev.Permalink }}" aria-label="Previous" data-tooltip="i-prev">
             {{ partial "icon.html" (dict "name" "chevron-left") }}
           </a>
         </li>
         {{ end }}
         {{ if .Next }}
         <li>
-          <a class="icon" href="{{ .Next.Permalink }}" aria-label="Next" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();">
+          <a class="icon" href="{{ .Next.Permalink }}" aria-label="Next" data-tooltip="i-next">
             {{ partial "icon.html" (dict "name" "chevron-right") }}
           </a>
         </li>
         {{ end }}
         <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();">
+          <a class="icon" href="#" data-scroll-top aria-label="Top of Page" data-tooltip="i-top">
             {{ partial "icon.html" (dict "name" "chevron-up") }}
           </a>
         </li>
         <li>
-          <a class="icon" href="#" aria-label="Share" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;">
+          <a class="icon" href="#" aria-label="Share" data-tooltip="i-share" data-toggle="share">
             {{ partial "icon.html" (dict "name" "share-alt") }}
           </a>
         </li>
