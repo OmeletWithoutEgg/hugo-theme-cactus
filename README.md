@@ -87,8 +87,26 @@ See [Theme development and demo](#theme-development-and-demo) to preview the the
   css = ["css/custom.css"]
 ```
 
-You can add multiple custom stylesheets which will be loaded after the main theme css.
-For example, the above line will load the CSS-file placed at `/static/css/custom.css`.
+Place custom stylesheets in `assets/css/`. When all configured files are assets,
+they are concatenated in order and loaded after the main theme stylesheet;
+production builds minify and fingerprint the result. Legacy `static/` paths
+remain supported, preserving the configured order without concatenation.
+
+### JavaScript and code copying
+
+Theme JavaScript lives in `assets/js/` and is bundled with Hugo's `js.Build`.
+Development builds include source maps; production builds minify and fingerprint
+the bundles. No Node.js installation is needed to build the site.
+
+The code block render hook marks pages containing fenced code blocks. Those pages
+load the copy-button bundle, including the bundled ClipboardJS dependency. Copy
+buttons support both table and inline line numbers without including the numbers
+in the copied text. Site overrides are not required.
+
+For a page containing only raw HTML or indented code blocks, set `copyCode: true`
+in front matter to enable copying. Set `copyCode: false` to disable copying on a
+page. If you override `layouts/_markup/render-codeblock.html`, retain its
+`Page.Store` flag or use this front matter setting.
 
 ### Navigation
 

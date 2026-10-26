@@ -61,7 +61,7 @@ async function setup(width, post = true) {
     }
     return modules.get(filename);
   }
-  const entry = load(path.resolve(__dirname, '../static/js/main.js'));
+  const entry = load(path.resolve(__dirname, '../assets/js/main.js'));
   await entry.link((specifier, parent) => load(path.resolve(path.dirname(parent.identifier), specifier)));
   await entry.evaluate();
   return { ids, nav, toggle, window, scroll(y) { window.scrollY = y; window.events.scroll(); } };

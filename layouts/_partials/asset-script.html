@@ -1,0 +1,13 @@
+{{- $options := dict "format" "esm" "target" "es2018" "minify" (not hugo.IsDevelopment) "params" (.params | default dict) -}}
+{{- if hugo.IsDevelopment -}}
+  {{- $options = merge $options (dict "sourceMap" "linked") -}}
+{{- end -}}
+{{- with resources.Get .path | js.Build $options -}}
+  {{- if hugo.IsDevelopment -}}
+    <script type="module" src="{{ .RelPermalink }}"></script>
+  {{- else -}}
+    {{- with . | fingerprint -}}
+      <script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

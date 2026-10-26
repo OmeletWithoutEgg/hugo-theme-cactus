@@ -1,1 +1,8 @@
-<script type="module" src="{{ "js/main.js" | relURL }}"></script>
+{{ partial "asset-script.html" (dict "path" "js/main.js") }}
+{{ $copyCode := .Store.Get "hasCodeBlocks" }}
+{{ if isset .Params "copycode" }}
+  {{ $copyCode = .Params.copyCode }}
+{{ end }}
+{{ if $copyCode }}
+  {{ partial "asset-script.html" (dict "path" "js/code-copy.js" "params" (dict "copyIcon" (partial "icon.html" (dict "name" "clone")) )) }}
+{{ end }}
