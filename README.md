@@ -108,15 +108,42 @@ See [Theme development and demo](#theme-development-and-demo) to preview the the
 
 ### Custom CSS
 
+Place stylesheets in your site's `assets/` directory and list their paths:
+
 ```toml
 [params]
   css = ["css/custom.css"]
 ```
 
-Place custom stylesheets in `assets/css/`. When all configured files are assets,
-they are concatenated in order and loaded after the main theme stylesheet;
-production builds minify and fingerprint the result. Legacy `static/` paths
-remain supported, preserving the configured order without concatenation.
+The compiled theme CSS comes first, followed by these files in the configured
+order. Hugo combines them into one stylesheet, then minifies and fingerprints it
+in production. Paths must resolve to assets, not `static/` files or external URLs.
+CSS `url()` paths are relative to the generated stylesheet in `css/`.
+
+### Custom head and body content
+
+Create these files in your **site's** `layouts/_partials/` to override the empty
+hooks provided by the theme. Both receive the current page as `.`.
+
+- `optional-head.html`: add stylesheets or metadata inside `<head>`, after the theme CSS.
+- `optional-body.html`: add scripts or custom HTML before `</body>`.
+
+For `assets/css/custom.css`, use this in `optional-head.html`:
+
+```go-html-template
+{{ partial "asset-style.html" (resources.Get "css/custom.css") }}
+```
+
+For `assets/js/custom.js`, use this in `optional-body.html`:
+
+```go-html-template
+{{ partial "asset-script.html" (dict "path" "js/custom.js") }}
+```
+
+These helpers minify and fingerprint assets in production. Prefer `params.css`
+for stylesheets that should join the theme bundle; styles added through
+`optional-head.html` are loaded separately. Do not include the same stylesheet
+in both places.
 
 ### JavaScript and code copying
 

@@ -18,39 +18,18 @@
 
   <link rel="preload" href="{{ "lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin="anonymous">
 
-  {{ $opts := dict "transpiler" "dartsass" "enableSourceMap" "true" }}
+  {{ $opts := dict "transpiler" "dartsass" "targetPath" "css/theme.css" "enableSourceMap" hugo.IsDevelopment }}
   {{- with resources.Get "scss/style.scss" | toCSS $opts }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | minify | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- $styles := slice . }}
+    {{- range site.Params.css }}
+      {{- with resources.Get . }}
+        {{- $styles = $styles | append . }}
+      {{- else }}
+        {{- errorf "Custom stylesheet %q not found in assets/" . }}
       {{- end }}
     {{- end }}
+    {{- partial "asset-style.html" ($styles | resources.Concat "css/style.css") }}
   {{- end }}
-
-  <!-- Custom CSS -->
-  {{ $customStyles := slice }}
-  {{ $allAssets := true }}
-  {{ range .Site.Params.css }}
-    {{ with resources.Get . }}
-      {{ $customStyles = $customStyles | append . }}
-    {{ else }}
-      {{ $allAssets = false }}
-    {{ end }}
-  {{ end }}
-  {{ if and $allAssets $customStyles }}
-    {{ partial "asset-style.html" ($customStyles | resources.Concat "css/custom.css") }}
-  {{ else }}
-    {{/* Preserve configured order when mixing assets with legacy static URLs. */}}
-    {{ range .Site.Params.css }}
-      {{ with resources.Get . }}
-        {{ partial "asset-style.html" . }}
-      {{ else }}
-        <link rel="stylesheet" href="{{ . | relURL }}">
-      {{ end }}
-    {{ end }}
-  {{ end }}
 
   {{ partial "optional-head.html" . }}
 
