@@ -13,8 +13,6 @@
 @use "partial/icons";
 @use "partial/copy-button";
 
-// global-reset()
-
 *,
 *:before,
 *:after {
@@ -28,20 +26,18 @@ html {
   scrollbar-gutter: stable;
   border-top: 2px solid var(--color-text);
   -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
 }
 body {
   margin: 0;
   height: 100%;
   background-color: var(--color-background);
   color: var(--color-text);
-  font-display: swap;
   font-weight: 400;
   font-size: variables.$font-size;
   font-family: variables.$font-family-body;
+  font-variant-ligatures: none;
   line-height: variables.$line-height;
   text-rendering: geometricPrecision;
-  flex: 1;
 
   @include mixins.antialias();
 }
@@ -60,16 +56,17 @@ body {
   }
   a {
     color: var(--color-text);
-    text-decoration: none;
-
-    @include mixins.underline(5px, var(--color-text));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .2em;
 
     &:hover {
-      background-image: linear-gradient(transparent, transparent 4px, var(--color-link) 4px, var(--color-link));
+      text-decoration-color: var(--color-link);
+      text-decoration-thickness: 2px;
     }
   }
   a.icon {
-    background: none;
+    text-decoration: none;
 
     &:hover {
       color: var(--color-link);
@@ -82,7 +79,6 @@ body {
   h4 a,
   h5 a,
   h6 a {
-    background: none;
     color: inherit;
     text-decoration: none;
   }
@@ -93,34 +89,12 @@ body {
   h4 a:hover,
   h5 a:hover,
   h6 a:hover {
-    @include mixins.underline(6px, var(--color-link));
+    text-decoration-line: underline;
   }
-  h6 {
-    a {
-      background: none;
-      color: inherit;
-      text-decoration: none;
-    }
-  }
-  h6 {
-    a:hover {
-      @include mixins.underline(6px, var(--color-link));
-    }
-  }
-}
-@media (min-width: 540px) {
-  .image-wrap {
-    flex-direction: row;
-    margin-bottom: 2rem;
 
-    .image-block {
-      flex: 1 0 35%;
-      margin-right: 2rem;
-    }
-    p {
-      flex: 1 0 65%;
-    }
-  }
+}
+.content.index {
+  padding-bottom: 1rem;
 }
 .max-width {
   max-width: variables.$page-width;
@@ -143,11 +117,10 @@ body {
 }
 
 @include meta.load-css("partial/header");
-@include meta.load-css("partial/post/actions_desktop");
-@include meta.load-css("partial/post/actions_mobile");
+@include meta.load-css("partial/post/actions-desktop");
+@include meta.load-css("partial/post/actions-mobile");
 @include meta.load-css("partial/index");
 @include meta.load-css("partial/article");
-@include meta.load-css("partial/archive");
 @include meta.load-css("partial/comments");
 @include meta.load-css("partial/footer");
 @include meta.load-css("partial/pagination");
@@ -156,84 +129,4 @@ body {
 @include meta.load-css("partial/tooltip");
 @include meta.load-css("partial/categories");
 
-pre {
-  overflow-x: auto;
-  padding: 15px 15px 10px 15px;
-  border: 1px dotted var(--color-border);
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  font-size: 13px;
-  font-family: variables.$font-family-mono;
-  line-height: 22px;
-  position: relative;
-
-  .code-copy-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: 0;
-    border-radius: 0 2px;
-    padding: 0;
-    font-family: variables.$font-family-mono;
-    font-weight: 800;
-    font-size: 0.9em;
-    line-height: 1.7;
-    color: #fff;
-    background-color: #8c8c8c;
-    min-width: 60px;
-    text-align: center;
-    cursor: pointer;
-    letter-spacing: 0em;
-  }
-
-  .code-copy-btn:hover {
-    background-color: #666;
-    color: #2bbc8a;
-  }
-
-  code {
-    display: block;
-    padding: 0;
-    border: none;
-  }
-}
-
-code {
-  font-family: variables.$font-family-mono;
-  padding: 0 5px;
-  border: 1px dotted var(--color-border);
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-}
-
-.highlight {
-
-  & > div {
-    border-radius: 2px;
-    -webkit-border-radius: 2px;
-  }
-
-  pre {
-    border: none;
-    background: none;
-  }
-
-  table {
-
-    pre {
-      margin-top: 0;
-    }
-
-    td:first-child {
-      pre {
-        padding-right: 0;
-      }
-    }
-
-    td:last-child {
-      pre {
-        padding-left: 0;
-      }
-    }
-  }
-}
+@include meta.load-css("partial/code");

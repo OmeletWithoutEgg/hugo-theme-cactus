@@ -1,0 +1,63 @@
+@use "../variables";
+
+pre,
+code {
+  font-family: variables.$font-family-mono;
+  border: 1px dotted var(--color-border);
+  border-radius: 2px;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 15px 15px 10px 15px;
+  font-size: 13px;
+  line-height: 22px;
+
+  code {
+    display: block;
+    padding: 0;
+    border: none;
+  }
+}
+
+code {
+  padding: 0 5px;
+}
+
+.highlight {
+  margin: 1em 0;
+
+  > div {
+    border-radius: 2px;
+  }
+
+  pre {
+    margin: 0;
+    border: none;
+    background: none;
+    overflow: visible;
+  }
+
+  // Scroll the code surface, keeping the copy button outside the scroller.
+  > pre,
+  > div {
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: collapse;
+    text-align: left;
+
+    td:first-child {
+      pre {
+        padding-right: 0;
+      }
+    }
+
+    td:last-child {
+      pre {
+        padding-left: 0;
+      }
+    }
+  }
+}

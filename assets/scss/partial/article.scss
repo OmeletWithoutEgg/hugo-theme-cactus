@@ -1,8 +1,8 @@
-@use "../mixins";
+@use "../variables";
 
 article {
   header {
-    .posttitle {
+    .post-title {
       margin-top: 0;
       margin-bottom: 0;
       text-transform: none;
@@ -21,9 +21,6 @@ article {
       text-transform: uppercase;
       letter-spacing: .01em;
       font-weight: 700;
-    }
-    .postdate {
-      display: inline;
     }
   }
   blockquote {
@@ -46,16 +43,13 @@ article {
       line-height: .1em;
     }
     footer {
-      margin: line-height 0;
       color: var(--color-meta);
       font-size: 11px;
 
       a {
-        background-image: linear-gradient(transparent, transparent 5px, var(--color-meta) 5px, var(--color-meta));
         color: var(--color-meta);
       }
       a:hover {
-        background-image: linear-gradient(transparent, transparent 4px, var(--color-meta-lighten) 4px, var(--color-meta-lighten));
         color: var(--color-meta-lighten);
       }
       cite {
@@ -85,66 +79,22 @@ article {
     margin: auto;
     max-width: 100%;
     height: auto;
-
-    /* http://webdesignerwall.com/tutorials/css-elastic-videos */
-    .video-container {
-      position: relative;
-      overflow: hidden;
-      padding-top: 56.25% e;
-      // (9/16 * 100)% // 16:9 ratio
-      height: 0;
-
-      iframe,
-      object,
-      embed {
-        position: absolute;
-        top: 0;
-        left: 0;
-        margin-top: 0;
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .pullquote {
-      margin: 0;
-      width: 45%;
-      text-align: left;
-
-      &.left {
-        margin-right: 1em;
-        margin-left: .5em;
-      }
-      &.right {
-        margin-right: .5em;
-        margin-left: 1em;
-      }
-    }
-    .caption {
-      position: relative;
-      display: block;
-      margin-top: .5em;
-      color: var(--color-meta);
-      text-align: center;
-      font-size: .9em;
-    }
   }
-}
-.posttitle {
-  text-transform: none;
-  font-size: 1.5em;
-  line-height: 1.25;
 }
 .article-tag {
   .tag-link {
     &:before {
       content: "#";
-      @include mixins.underline(10px, var(--color-link));
     }
   }
 }
 .article-category {
   .category-link {
-    @include mixins.underline(10px, var(--color-link));
+    text-decoration: none;
+
+    &:hover {
+      text-decoration-line: underline;
+    }
   }
 }
 @media (min-width: 480px) {
@@ -156,5 +106,29 @@ article {
     &:before {
       content: " | ";
     }
+  }
+}
+
+// Prose tables only; code-block layout belongs in code.scss.
+// :where preserves the low specificity of these defaults.
+:where(article .content) {
+  table:where(:not(.highlight *)) {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: variables.$font-size - 2px;
+    overflow: auto;
+    display: block;
+  }
+  th:where(:not(.highlight *)) {
+    padding: 8px;
+    border-bottom: 1px dashed var(--color-border);
+    color: var(--color-accent-2);
+    font-weight: bold;
+    font-size: variables.$font-size - 1px;
+  }
+  td:where(:not(.highlight *)) {
+    padding: 0 8px;
+    border-bottom: none;
   }
 }

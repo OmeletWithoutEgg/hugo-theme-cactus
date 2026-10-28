@@ -1,5 +1,3 @@
-@use "../../mixins";
-
 #header-post {
   position: fixed;
   top: 2rem;
@@ -19,16 +17,11 @@
   }
 
   a {
-    background: none;
     color: inherit;
     text-decoration: none;
   }
-  a.icon {
-    background: none;
-
-    &:hover {
-      color: var(--color-link);
-    }
+  a.icon:hover {
+    color: var(--color-link);
   }
   nav {
     ul {
@@ -70,15 +63,7 @@
       margin-right: 0;
     }
   }
-  #menu-icon {
-    float: right;
-    margin-right: 2rem;
-    margin-left: 15px;
-
-    &:hover {
-      color: var(--color-accent-1);
-    }
-  }
+  #menu-icon,
   #menu-icon-tablet {
     float: right;
     margin-right: 2rem;
@@ -121,7 +106,7 @@
         color: var(--color-accent-1);
       }
       a:hover {
-        @include mixins.underline(5px, var(--color-accent-1));
+        text-decoration: underline;
       }
       li {
         border-right: 1px dotted var(--color-accent-1);
@@ -215,24 +200,16 @@
 // smartphone + phapblet
   }
 }
-@media screen and (max-width: 500px) {
+@media screen and (width < 500px) {
   #header-post {
     display: none;
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (width < 900px) {
   #header-post {
-    #menu-icon {
-      display: none;
-    }
-    #actions {
-      display: none;
-    }
-  }
-}
-@media screen and (max-width: 900px) {
-  #header-post {
+    #menu-icon,
+    #actions,
     #toc {
       display: none;
     }
@@ -240,9 +217,7 @@
 }
 @media screen and (min-width: 900px) {
   #header-post {
-    #menu-icon-tablet {
-      display: none !important;
-    }
+    #menu-icon-tablet,
     #top-icon-tablet {
       display: none !important;
     }
@@ -265,4 +240,4 @@
       }
     }
   }
-};
+}

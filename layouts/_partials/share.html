@@ -1,5 +1,5 @@
 <ul>
-  {{ $icon_size := .Scratch.Get "icon_size"}}
+  {{ $iconSize := .Scratch.Get "icon-size"}}
   {{ if .Description }}
     {{ .Scratch.Set "description" .Description }}
   {{ else }}
@@ -8,47 +8,47 @@
   {{ $description := .Scratch.Get "description" }}
   <li>
     <a class="icon" href="http://www.facebook.com/sharer.php?u={{ .Permalink }}" aria-label="Facebook">
-      {{ partial "icon.html" (dict "name" "facebook" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "facebook" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="https://twitter.com/share?url={{ .Permalink }}&text={{ .Title }}" aria-label="Twitter">
-      {{ partial "icon.html" (dict "name" "twitter" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "twitter" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="http://www.linkedin.com/shareArticle?url={{ .Permalink }}&title={{ .Title }}" aria-label="Linkedin">
-      {{ partial "icon.html" (dict "name" "linkedin" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "linkedin" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url={{ .Permalink }}&is_video=false&description={{ .Title }}" aria-label="Pinterest">
-      {{ partial "icon.html" (dict "name" "pinterest" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "pinterest" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="mailto:?subject={{ .Title }}&body=Check out this article: {{ .Permalink }}" aria-label="Email">
-      {{ partial "icon.html" (dict "name" "envelope" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "envelope" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="https://getpocket.com/save?url={{ .Permalink }}&title={{ .Title }}" aria-label="Pocket">
-      {{ partial "icon.html" (dict "name" "get-pocket" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "get-pocket" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="http://reddit.com/submit?url={{ .Permalink }}&title={{ .Title }}" aria-label="reddit">
-      {{ partial "icon.html" (dict "name" "reddit" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "reddit" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="http://www.tumblr.com/share/link?url={{ .Permalink }}&name={{ .Title }}&description={{ $description }}" aria-label="Tumblr">
-      {{ partial "icon.html" (dict "name" "tumblr" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "tumblr" "size" $iconSize) }}
     </a>
   </li>
   <li>
     <a class="icon" href="https://news.ycombinator.com/submitlink?u={{ .Permalink }}&t={{ .Title }}" aria-label="Hacker News">
-      {{ partial "icon.html" (dict "name" "hacker-news" "size" $icon_size) }}
+      {{ partial "icon.html" (dict "name" "hacker-news" "size" $iconSize) }}
     </a>
   </li>
 </ul>

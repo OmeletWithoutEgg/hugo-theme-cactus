@@ -26,7 +26,13 @@
       }
     }
   }
+
+  // Archives add an inset to the shared post list on wider screens.
+  #archive .post-list .post-item {
+    margin-left: 1rem;
+  }
 }
+
 .project-list {
   padding: 0;
   list-style: none;
