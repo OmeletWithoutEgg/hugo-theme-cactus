@@ -1,8 +1,10 @@
 ## Cactus
 
-A hugo theme for personal blog. Fork from hexo theme [cactus](https://github.com/probberechts/hexo-theme-cactus) created by @probberechts.
+A Hugo theme for personal blogs, maintained in [OmeletWithoutEgg/hugo-theme-cactus](https://github.com/OmeletWithoutEgg/hugo-theme-cactus).
 
-[Live demo on github pages](https://www.takuzen.me/hugo-theme-cactus/).
+This is a fork of [monkeyWzr/hugo-theme-cactus](https://github.com/monkeyWzr/hugo-theme-cactus), originally ported from the Hexo theme [Cactus](https://github.com/probberechts/hexo-theme-cactus) by @probberechts.
+
+[Live demo](https://omeletwithoutegg.github.io/hugo-theme-cactus/).
 
 Some works are still in progress. See [TODOS](#todos) below.
 
@@ -58,11 +60,23 @@ multilingual Markdown typography, code blocks, MathJax, and bilingual public-dom
 lyrics. Goldmark passthrough preserves TeX
 notation; only the mathematics post enables MathJax.
 
+### Deploy the demo to GitHub Pages
+
+In the theme repository, set **Settings → Pages → Build and deployment → Source**
+to **GitHub Actions**. The [workflow](.github/workflows/gh-pages.yml) builds pull
+requests and deploys pushes to the default branch (`master` or `main`). You can
+also run it manually on the default branch.
+
+The workflow builds from the theme root and uses the Pages URL as Hugo's base URL.
+The demo URL is https://omeletwithoutegg.github.io/hugo-theme-cactus/ unless a custom
+domain is configured. It publishes a Pages artifact without committing generated
+files to a `gh-pages` branch.
+
 ## Install
 
 1. clone cactus to your hugo site's `themes` folder.
 ```
-git clone https://github.com/monkeyWzr/hugo-theme-cactus.git themes/cactus
+git clone https://github.com/OmeletWithoutEgg/hugo-theme-cactus.git themes/cactus
 ```
 
 2. change your theme to cactus in your site config
@@ -202,7 +216,7 @@ weight = 4
 ```toml
 [params]
   showProjectsList = true
-  projectsUrl = "https://github.com/monkeyWzr"
+  projectsUrl = "https://github.com/OmeletWithoutEgg/hugo-theme-cactus"
 ```
 
 Projects section will not be shown if no data file is detected. See [Projects list](#projects-list) below.
@@ -235,15 +249,15 @@ for example, `data/projects.json`:
 ```toml
 [[params.social]]
   name = "github"
-  link = "https://github.com/monkeyWzr"
+  link = "https://github.com/OmeletWithoutEgg"
 
 [[params.social]]
   name = "email"
-  link = "monkeywzr@gmail.com" # no need for "mailto:" at the start
+  link = "you@example.com" # no need for "mailto:" at the start
 
 [[params.social]]
   name = "linkedin"
-  link = "https://www.linkedin.com/in/monkeywzr/"
+  link = "https://www.linkedin.com/in/your-profile/"
 ```
 
 The `name` key selects a bundled SVG in `assets/icons/`; `email`, `rss`, and `scholar` are also supported. Add custom icons to your site's `assets/icons/` directory. Missing icons fall back to a link icon with a build warning.
@@ -260,7 +274,7 @@ Assign your copy right to `.Site.Copyright`. Cactus will append current year to 
 TODO: Customizable copyright year
 
 ```toml
-copyright = "Zeran Wu" # cactus theme will use site title if copyright is not set
+copyright = "Your name" # cactus theme will use site title if copyright is not set
 ```
 
 ### Comments
@@ -286,7 +300,7 @@ Before using disqus, you need to register and get your [disqus shortname](https:
 
 ```toml
 [services.disqus]
-  shortname = "wzr"
+  shortname = "your-disqus-shortname"
 ```
 
 ### highlight
