@@ -5,11 +5,12 @@
 >
 {{ partial "head.html" . }}
 <body class="max-width mx-auto px3">
+    <a class="skip-link" href="#main-content" lang="en">Skip to main content</a>
   <div class="content index py4">
 
     {{ partial "header.html" . }}
 
-    <main>
+    <main id="main-content" tabindex="-1">
       {{ block "main" . }}
       {{ end }}
     </main>

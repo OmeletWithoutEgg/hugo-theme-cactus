@@ -1,0 +1,19 @@
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: .5rem;
+  left: .5rem;
+  z-index: 10000;
+  padding: .5rem 1rem;
+  background: var(--color-background);
+  color: var(--color-text);
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
+}

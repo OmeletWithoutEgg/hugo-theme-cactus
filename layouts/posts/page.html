@@ -2,11 +2,12 @@
 <html lang="{{ .Site.Language.Locale }}" data-theme="{{ .Site.Params.colortheme | default "white" }}">
   {{ partial "head.html" . }}
   <body class="max-width mx-auto px3">
+    <a class="skip-link" href="#main-content" lang="en">Skip to main content</a>
     <div class="content index py4">
 
       {{ partial "page-nav.html" . }}
 
-      <main>
+      <main id="main-content" tabindex="-1">
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
         <header>
           <h1 class="post-title" itemprop="name headline">

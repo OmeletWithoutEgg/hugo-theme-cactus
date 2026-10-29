@@ -12,9 +12,10 @@ article {
     .meta {
       margin-top: 0;
       margin-bottom: 1rem;
+      color: var(--color-meta);
     }
     .meta * {
-      color: var(--color-accent-3);
+      color: var(--color-meta);
       font-size: .85rem;
     }
     .author {
