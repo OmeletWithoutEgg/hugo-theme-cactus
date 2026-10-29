@@ -11,7 +11,7 @@ Some works are still in progress. See [TODOS](#todos) below.
 ## Template structure
 
 This fork uses the [Hugo v0.146.0+ template system](https://gohugo.io/templates/new-templatesystem-overview/).
-Hugo Extended and Dart Sass are required; the current site is tested with Hugo 0.168.0.
+Hugo Extended and Dart Sass are required; the current site is tested with Hugo 0.169.0.
 
 - `layouts/baseof.html`: shared shell for the home page, lists, and regular pages.
 - `layouts/home.html`: home page.
@@ -54,7 +54,7 @@ hugo --minify
 ```
 
 Build output and caches (`public/`, `resources/`, `.hugo_build.lock`) are ignored.
-The demo is tested with Hugo 0.168.0. Its `locale` setting requires Hugo 0.158.0 or later.
+The demo is tested with Hugo 0.169.0. Its `locale` setting requires Hugo 0.158.0 or later.
 Comments and analytics are disabled until configured. The four sample posts cover
 multilingual Markdown typography, code blocks, MathJax, and bilingual public-domain
 lyrics. Goldmark passthrough preserves TeX
