@@ -8,16 +8,17 @@
 <div class="reading-shell">
 {{ partial "reading-header.html" . }}
 </div>
-<nav id="medium-controls" class="medium-controls" aria-label="Page controls">
- <ul>
- <li><details class="floating-menu">
-  <summary aria-label="Main navigation" title="Main navigation">{{ partial "icon.html" (dict "name" "bars") }}</summary>
-  <nav class="floating-menu-dropdown" aria-label="Main navigation">
+<nav class="floating-controls" aria-label="Page controls">
+ <details class="floating-menu">
+  <summary class="floating-button" aria-label="Main navigation" title="Main navigation">{{ partial "icon.html" (dict "name" "bars") }}</summary>
+  <nav class="floating-menu-dropdown floating-panel" aria-label="Main navigation">
    <ul>{{ range site.Menus.main }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}</ul>
   </nav>
- </details></li>
- {{ partial "site-controls.html" . }}
- <li class="floating-home"><a href="{{ site.Home.RelPermalink }}" aria-label="Home" title="Home">{{ partial "icon.html" (dict "name" "home") }}</a></li></ul>
+ </details>
+ <div class="site-controls">{{ partial "site-controls.html" (dict "floating" true) }}</div>
+ <a class="floating-home floating-button" href="{{ site.Home.RelPermalink }}" aria-label="Home" title="Home">{{ partial "icon.html" (dict "name" "home") }}</a>
+ {{ with .PrevInSection }}<a href="{{ .RelPermalink }}" class="floating-article-prev floating-button" aria-label="Previous: {{ .Title }}" title="Previous: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-left") }}</a>{{ end }}
+ {{ with .NextInSection }}<a href="{{ .RelPermalink }}" class="floating-article-next floating-button" aria-label="Next: {{ .Title }}" title="Next: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-right") }}</a>{{ end }}
 </nav>
 <nav class="reading-toolbar" aria-label="Reading controls"><div class="reading-shell toolbar-inner">
  <button class="mobile-panel-toggle mobile-menu-toggle" type="button" aria-controls="mobile-menu-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "bars" "size" "lg") }} Menu</button>
@@ -26,7 +27,7 @@
 {{ partial "reading-panels.html" . }}
 <div class="reading-shell reading-grid">
 {{ if $hasTOC }}
-<aside class="reading-toc" aria-label="Table of contents">
+<aside class="reading-toc floating-panel" hidden aria-label="Table of contents">
  <details id="reading-toc" open><summary>On this page</summary>{{ $toc }}</details>
 </aside>
 {{ end }}
@@ -99,15 +100,9 @@
 </main>
 </div>
 <div class="reading-shell">{{ partial "footer.html" . }}</div>
-{{ if $hasTOC }}<button class="medium-toc-toggle" type="button" aria-controls="reading-toc" aria-expanded="false" aria-label="Table of contents" title="Table of contents">{{ partial "icon.html" (dict "name" "list") }}</button>{{ end }}
-<details class="floating-share"><summary aria-label="Share article" title="Share article">{{ partial "icon.html" (dict "name" "share-alt") }}</summary><div class="share-dropdown">{{ partial "share.html" . }}</div></details>
-<a class="reading-top" href="#header" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up") }}</a>
-{{ if or .PrevInSection .NextInSection }}
-<nav class="floating-article-nav" aria-label="Adjacent articles">
- {{ with .PrevInSection }}<a href="{{ .RelPermalink }}" class="floating-article-prev" aria-label="Previous: {{ .Title }}" title="Previous: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-left") }}</a>{{ else }}<span class="floating-article-spacer" aria-hidden="true"></span>{{ end }}
- {{ with .NextInSection }}<a href="{{ .RelPermalink }}" class="floating-article-next" aria-label="Next: {{ .Title }}" title="Next: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-right") }}</a>{{ else }}<span class="floating-article-spacer" aria-hidden="true"></span>{{ end }}
-</nav>
-{{ end }}
+{{ if $hasTOC }}<button class="medium-toc-toggle floating-button" type="button" aria-controls="reading-toc" aria-expanded="false" aria-label="Table of contents" title="Table of contents">{{ partial "icon.html" (dict "name" "list") }}</button>{{ end }}
+<details class="floating-share"><summary class="floating-button" aria-label="Share article" title="Share article">{{ partial "icon.html" (dict "name" "share-alt") }}</summary><div class="share-dropdown floating-panel">{{ partial "share.html" . }}</div></details>
+<a class="reading-top floating-button" href="#header" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up") }}</a>
 {{ partial "scripts.html" . }}
 {{ partial "asset-script.html" (dict "path" "js/reading-layout.js") }}
     {{ $mathjax := false }}

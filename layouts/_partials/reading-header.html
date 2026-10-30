@@ -1,4 +1,4 @@
-<header id="header">
+<header id="header" class="reading-header">
  <a class="reading-brand" href="{{ site.Home.RelPermalink }}" aria-label="Home">{{ with resources.Get "logo.png" }}{{ with .Resize "80x webp" }}<img src="{{ .RelPermalink }}" width="40" height="40" alt="">{{ end }}{{ end }}</a>
- <nav id="nav" aria-label="Main navigation"><ul>{{ range site.Menus.main }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}{{ partial "site-controls.html" . }}</ul></nav>
+ <nav id="nav" class="reading-nav" aria-label="Main navigation"><ul>{{ range site.Menus.main }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}<li class="site-controls">{{ partial "site-controls.html" (dict) }}</li></ul></nav>
 </header>
