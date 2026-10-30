@@ -1,5 +1,12 @@
 <head>
   <meta charset="utf-8">
+  <script>
+    document.documentElement.dataset.defaultTheme = document.documentElement.dataset.theme;
+    try {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+    } catch {}
+  </script>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   {{ if .IsPage }}
     <title>{{ .Title }} | {{ .Site.Title }}</title>

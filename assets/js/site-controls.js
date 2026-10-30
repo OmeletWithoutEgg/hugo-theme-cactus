@@ -1,10 +1,19 @@
 import { createMovingPoints } from "./canvas-nest.js";
 
+function readPreference(key) {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function writePreference(key, value) {
+  try { localStorage.setItem(key, value); } catch {}
+}
+function getDefaultTheme() {
+  return document.documentElement.dataset.defaultTheme;
+}
 function getSavedTheme() {
-  return localStorage.getItem('theme') || 'dark';
+  return readPreference('theme') || getDefaultTheme();
 }
 function saveTheme(theme) {
-  localStorage.setItem('theme', theme);
+  writePreference('theme', theme);
 }
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
@@ -13,7 +22,7 @@ function applyTheme(theme) {
   });
 }
 function toggleTheme() {
-  const currentTheme = getSavedTheme();
+  const currentTheme = document.documentElement.dataset.theme;
   const newTheme = currentTheme === 'dark' ? 'white' : 'dark';
   applyTheme(newTheme);
   saveTheme(newTheme);
@@ -31,14 +40,14 @@ function initMovingPoints() {
   });
 }
 function getSavedEnabledState() {
-  const saved = localStorage.getItem('bganim-enabled');
+  const saved = readPreference('bganim-enabled');
   const defaultEnabled = window.innerWidth >= 480
     && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const savedEnabled = saved === 'true';
   return saved === null ? defaultEnabled : savedEnabled;
 }
 function saveEnabledState(enabled) {
-  localStorage.setItem('bganim-enabled', enabled);
+  writePreference('bganim-enabled', enabled);
 }
 function applyEnabledState(enabled) {
   document.documentElement.setAttribute('data-bganim-enabled', enabled);
@@ -49,13 +58,11 @@ function applyEnabledState(enabled) {
     initMovingPoints();
     movingPoints.startAnimation();
   } else {
-    if (movingPoints !== null) {
-      movingPoints.stopAnimation();
-    }
+    movingPoints?.stopAnimation();
   }
 }
 function toggleEnabledState() {
-  const currentEnabledState = getSavedEnabledState();
+  const currentEnabledState = document.documentElement.dataset.bganimEnabled === 'true';
   const newEnabledState = !currentEnabledState;
   applyEnabledState(newEnabledState);
   saveEnabledState(newEnabledState);
@@ -74,9 +81,9 @@ function bindControls() {
 function initSiteControls() {
   window.addEventListener("storage", function(e) {
     if (e.key === "theme") {
-      applyTheme(e.newValue || "dark");
+      applyTheme(e.newValue || getDefaultTheme());
     } else if (e.key === "bganim-enabled") {
-      applyEnabledState(e.newValue === "true");
+      applyEnabledState(getSavedEnabledState());
     }
   });
 
