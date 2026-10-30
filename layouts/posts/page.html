@@ -22,7 +22,7 @@
 </nav>
 <nav class="reading-toolbar" aria-label="Reading controls"><div class="reading-shell toolbar-inner">
  <button class="mobile-panel-toggle mobile-menu-toggle" type="button" aria-controls="mobile-menu-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "bars" "size" "lg") }} Menu</button>
- {{ if $hasTOC }}<button class="mobile-panel-toggle mobile-toc-toggle" type="button" aria-controls="mobile-toc-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "list" "size" "lg") }} TOC</button>{{ end }}<button class="mobile-panel-toggle" type="button" aria-controls="mobile-share-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "share-alt" "size" "lg") }} share</button><a href="#header" class="mobile-top" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }} Top</a>
+ {{ if $hasTOC }}<button class="mobile-panel-toggle mobile-toc-toggle" type="button" aria-controls="mobile-toc-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "list" "size" "lg") }} TOC</button>{{ end }}<button class="mobile-panel-toggle" type="button" aria-controls="mobile-share-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "share-alt" "size" "lg") }} share</button><a href="#top" data-scroll-top class="mobile-top" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }} Top</a>
  </div></nav>
 {{ partial "reading-panels.html" . }}
 <div class="reading-shell reading-grid">
@@ -102,7 +102,7 @@
 <div class="reading-shell">{{ partial "footer.html" . }}</div>
 {{ if $hasTOC }}<button class="medium-toc-toggle floating-button" type="button" aria-controls="reading-toc" aria-expanded="false" aria-label="Table of contents" title="Table of contents">{{ partial "icon.html" (dict "name" "list") }}</button>{{ end }}
 <details class="floating-share"><summary class="floating-button" aria-label="Share article" title="Share article">{{ partial "icon.html" (dict "name" "share-alt") }}</summary><div class="share-dropdown floating-panel">{{ partial "share.html" . }}</div></details>
-<a class="reading-top floating-button" href="#header" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up") }}</a>
+<a class="reading-top floating-button" href="#top" data-scroll-top aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up") }}</a>
 {{ partial "scripts.html" . }}
 {{ partial "asset-script.html" (dict "path" "js/reading-layout.js") }}
     {{ $mathjax := false }}
