@@ -1,13 +1,36 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.Language.Locale }}" data-theme="{{ .Site.Params.colortheme | default "white" }}">
-  {{ partial "head.html" . }}
-  <body class="max-width mx-auto px3">
-    <a class="skip-link" href="#main-content" lang="en">Skip to main content</a>
-    <div class="content index py4">
-
-      {{ partial "page-nav.html" . }}
-
-      <main id="main-content" tabindex="-1">
+{{ $toc := .TableOfContents }}
+{{ $hasTOC := gt (len (findRE "<a\\s" $toc)) 0 }}
+<!doctype html>
+<html lang="{{ site.Language.Locale }}" data-theme="{{ site.Params.colortheme | default "dark" }}">
+{{ partial "head.html" . }}
+<body class="reading-layout">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="reading-shell">
+{{ partial "reading-header.html" . }}
+</div>
+<nav id="medium-controls" class="medium-controls" aria-label="Page controls">
+ <ul>
+ <li><details class="floating-menu">
+  <summary aria-label="Main navigation" title="Main navigation">{{ partial "icon.html" (dict "name" "bars") }}</summary>
+  <nav class="floating-menu-dropdown" aria-label="Main navigation">
+   <ul>{{ range site.Menus.main }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}</ul>
+  </nav>
+ </details></li>
+ {{ partial "site-controls.html" . }}
+ <li class="floating-home"><a href="{{ site.Home.RelPermalink }}" aria-label="Home" title="Home">{{ partial "icon.html" (dict "name" "home") }}</a></li></ul>
+</nav>
+<nav class="reading-toolbar" aria-label="Reading controls"><div class="reading-shell toolbar-inner">
+ <button class="mobile-panel-toggle mobile-menu-toggle" type="button" aria-controls="mobile-menu-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "bars" "size" "lg") }} Menu</button>
+ {{ if $hasTOC }}<button class="mobile-panel-toggle mobile-toc-toggle" type="button" aria-controls="mobile-toc-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "list" "size" "lg") }} TOC</button>{{ end }}<button class="mobile-panel-toggle" type="button" aria-controls="mobile-share-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "share-alt" "size" "lg") }} share</button><a href="#header" class="mobile-top" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }} Top</a>
+ </div></nav>
+{{ partial "reading-panels.html" . }}
+<div class="reading-shell reading-grid">
+{{ if $hasTOC }}
+<aside class="reading-toc" aria-label="Table of contents">
+ <details id="reading-toc" open><summary>On this page</summary>{{ $toc }}</details>
+</aside>
+{{ end }}
+<main id="main-content" tabindex="-1">
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
         <header>
           <h1 class="post-title" itemprop="name headline">
@@ -24,6 +47,7 @@
               </span>
             </span>
             <span class="post-date">
+              {{ partial "icon.html" (dict "name" "calendar") }}
               {{ $dataFormat := .Site.Params.dateFormat | default "2006-01-02" }}
               <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format $dataFormat }}</time>
               {{ partial "draft-label.html" . }}
@@ -60,26 +84,32 @@
           </div>
         </header>
 
-        {{ if .Site.Params.tocInline }}
-          <div id="toc">
-            {{ .TableOfContents }}
-          </div>
-        {{ end }}
         <div class="content" itemprop="articleBody">
           {{ .Content }}
         </div>
       </article>
 
-      {{ partial "comments.html" . }}
-      </main>
+      <nav class="article-pagination article-pagination-bottom" aria-label="Adjacent articles">
+        {{ with .PrevInSection }}<a class="article-prev" href="{{ .RelPermalink }}" aria-label="Previous: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-left") }}<span>{{ .Title }}</span></a>{{ end }}
+        {{ with .NextInSection }}<a class="article-next" href="{{ .RelPermalink }}" aria-label="Next: {{ .Title }}"><span>{{ .Title }}</span>{{ partial "icon.html" (dict "name" "chevron-right") }}</a>{{ end }}
+      </nav>
 
-      {{ partial "page-nav-mobile.html" . }}
+{{ partial "comments.html" . }}
 
-      {{ partial "footer.html" . }}
-
-    </div>
-
-    {{ partial "scripts.html" . }}
+</main>
+</div>
+<div class="reading-shell">{{ partial "footer.html" . }}</div>
+{{ if $hasTOC }}<button class="medium-toc-toggle" type="button" aria-controls="reading-toc" aria-expanded="false" aria-label="Table of contents" title="Table of contents">{{ partial "icon.html" (dict "name" "list") }}</button>{{ end }}
+<details class="floating-share"><summary aria-label="Share article" title="Share article">{{ partial "icon.html" (dict "name" "share-alt") }}</summary><div class="share-dropdown">{{ partial "share.html" . }}</div></details>
+<a class="reading-top" href="#header" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up") }}</a>
+{{ if or .PrevInSection .NextInSection }}
+<nav class="floating-article-nav" aria-label="Adjacent articles">
+ {{ with .PrevInSection }}<a href="{{ .RelPermalink }}" class="floating-article-prev" aria-label="Previous: {{ .Title }}" title="Previous: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-left") }}</a>{{ else }}<span class="floating-article-spacer" aria-hidden="true"></span>{{ end }}
+ {{ with .NextInSection }}<a href="{{ .RelPermalink }}" class="floating-article-next" aria-label="Next: {{ .Title }}" title="Next: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-right") }}</a>{{ else }}<span class="floating-article-spacer" aria-hidden="true"></span>{{ end }}
+</nav>
+{{ end }}
+{{ partial "scripts.html" . }}
+{{ partial "asset-script.html" (dict "path" "js/reading-layout.js") }}
     {{ $mathjax := false }}
     {{ if isset .Params "mathjax" }}
       {{ $mathjax = .Params.mathjax }}
@@ -101,6 +131,6 @@
                                      src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-chtml.js">
       </script>
     {{ end }}
-    {{ partial "optional-body.html" . }}
-  </body>
-</html>
+
+{{ partial "optional-body.html" . }}
+</body></html>

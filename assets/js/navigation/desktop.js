@@ -18,13 +18,26 @@ export function initDesktopNavigation() {
     });
   }
 
-  // Keep the existing default: expand the menu on wide screens.
-  setMenuExpanded(document.documentElement.clientWidth >= 1440);
+  const storageKey = "cactus-post-menu-expanded";
+  let expanded = window.innerWidth >= 1200;
+  try {
+    const saved = sessionStorage.getItem(storageKey);
+    if (saved !== null) expanded = saved === "true";
+  } catch {
+    // Navigation remains usable when browser storage is unavailable.
+  }
+  setMenuExpanded(expanded);
   menuIcons.forEach(icon => {
     icon.setAttribute("aria-controls", "menu");
     icon.addEventListener("click", event => {
       event.preventDefault();
-      setMenuExpanded(getComputedStyle(menu).visibility === "hidden");
+      const expanded = getComputedStyle(menu).visibility === "hidden";
+      setMenuExpanded(expanded);
+      try {
+        sessionStorage.setItem(storageKey, String(expanded));
+      } catch {
+        // Toggling the current page does not require persistent storage.
+      }
     });
   });
 

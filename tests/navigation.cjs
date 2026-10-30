@@ -30,7 +30,7 @@ class Element {
   click() { this.events.click({ preventDefault() {} }); }
 }
 
-async function setup(width, post = true) {
+async function setup(width, post = true, savedState = new Map()) {
   const ids = new Map(['menu', 'nav', 'menu-icon', 'menu-icon-tablet', 'top-icon-tablet',
     'footer-post', 'nav-footer', 'toc-footer', 'share-footer', 'top'].map(id => [id, new Element(id)]));
   const nav = new Element();
@@ -50,8 +50,12 @@ async function setup(width, post = true) {
         ? ['nav-footer', 'toc-footer', 'share-footer'].map(id => ids.get(id)) : [];
     },
   };
-  const window = { scrollY: 0, events: {}, addEventListener(name, handler) { this.events[name] = handler; } };
-  const context = vm.createContext({ document, window, getComputedStyle: element => element.style });
+  const window = { innerWidth: width, scrollY: 0, events: {}, addEventListener(name, handler) { this.events[name] = handler; } };
+  const sessionStorage = {
+    getItem: key => savedState.get(key) ?? null,
+    setItem: (key, value) => savedState.set(key, value),
+  };
+  const context = vm.createContext({ document, window, sessionStorage, getComputedStyle: element => element.style });
   const modules = new Map();
   function load(filename) {
     if (!modules.has(filename)) {
@@ -68,7 +72,7 @@ async function setup(width, post = true) {
 }
 
 async function main() {
-  let state = await setup(1200);
+  let state = await setup(1100);
   let { ids } = state;
   assert.equal(ids.get('menu').style.visibility, 'hidden');
   ids.get('menu-icon').click();
@@ -98,6 +102,17 @@ async function main() {
   assert.equal(ids.get('menu-icon-tablet').style.display, '');
   assert.equal(ids.get('top-icon-tablet').style.display, 'none');
 
+  const savedState = new Map();
+  state = await setup(1100, true, savedState);
+  state.ids.get('menu-icon').click();
+  state = await setup(1100, true, savedState);
+  assert.equal(state.ids.get('menu').style.visibility, 'visible');
+  state.ids.get('menu-icon').click();
+  state = await setup(1440, true, savedState);
+  assert.equal(state.ids.get('menu').style.visibility, 'hidden');
+
+  state = await setup(1200);
+  assert.equal(state.ids.get('menu').style.visibility, 'visible');
   state = await setup(1440);
   assert.equal(state.ids.get('menu').style.visibility, 'visible');
   state = await setup(390, false);

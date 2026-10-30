@@ -30,6 +30,7 @@
       {{ range site.Menus.main }}
         <li><a href="{{ .URL }}">{{ .Name }}</a></li>
       {{ end }}
+      {{ partial "site-controls.html" . }}
     </ul>
   </div>
 </header>

@@ -68,6 +68,11 @@
     float: right;
     margin-right: 2rem;
     margin-left: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
 
     &:hover {
       color: var(--color-accent-1);
@@ -99,9 +104,13 @@
     font-size: .8rem;
 
     ul {
-      line-height: 15px;
+      line-height: 32px;
+      vertical-align: top;
 
       a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
         margin-right: 15px;
         color: var(--color-accent-1);
       }
@@ -109,6 +118,8 @@
         text-decoration: underline;
       }
       li {
+        display: inline-flex;
+        align-items: center;
         border-right: 1px dotted var(--color-accent-1);
       }
       li:last-child {

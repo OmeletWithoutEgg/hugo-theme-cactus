@@ -19,6 +19,8 @@ $color-quote: #2bbc8a;
 
 [data-theme="white"] {
   --color-background: #{$color-background};
+  --color-floating-button-bg: color-mix(in srgb, var(--color-meta) 7%, var(--color-background));
+  --color-floating-button-hover-bg: color-mix(in srgb, var(--color-meta) 14%, var(--color-background));
   --color-footer-mobile-1: #{$color-footer-mobile-1};
   --color-footer-mobile-2: #{$color-footer-mobile-2};
   --color-background-code: #{$color-background-code};
