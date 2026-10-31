@@ -6,7 +6,7 @@
   z-index: 5000000;
   width: 100%;
   border-top: 1px solid var(--color-border);
-  background: var(--color-footer-mobile-1);
+  background: var(--color-surface);
   transition: opacity .2s;
 
   a {
@@ -20,7 +20,7 @@
   #share-footer {
     padding-right: 1rem;
     padding-left: 1rem;
-    background: var(--color-footer-mobile-2);
+    background: var(--color-surface);
     text-align: center;
 
     ul {
@@ -67,7 +67,7 @@
     clear: both;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    background: var(--color-footer-mobile-2);
+    background: var(--color-surface);
     text-align: left;
 
     #TableOfContents {

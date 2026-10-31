@@ -1,5 +1,22 @@
+// Shared geometry for the reading controls.
+$control-size: 44px;
+$control-gap: 8px;
+$control-edge: 32px;
+$control-top: 24px;
+$panel-gap: 12px;
+$control-panel-offset: $control-edge + $control-size + $panel-gap;
+$control-count: 9; // Six upper slots and three lower slots, including hidden buttons.
+$control-group-gap: 24px;
+$control-reserved-height: $control-top + $control-edge + $control-group-gap;
+$control-full-height: $control-count * $control-size + $control-reserved-height;
+
 // Reading page structure.
-.reading-layout { height: auto; min-height: 100vh; }
+.reading-layout {
+  --control-height: #{$control-size};
+  --control-gap: #{$control-gap};
+  --control-step: calc(var(--control-height) + var(--control-gap));
+  height: auto; min-height: 100vh;
+}
 .reading-shell { max-width: 768px; margin: 0 auto; padding: 0 32px; }
 .reading-header { display: none; }
 .reading-grid { position: relative; padding-top: 64px; padding-bottom: 72px; }
@@ -46,8 +63,8 @@
   > a {
     display: flex; align-items: center; gap: 8px; padding: 12px 16px; min-height: 64px;
     font-size: 12px; line-height: 1.6; text-decoration: none; overflow-wrap: anywhere;
-    background: var(--color-floating-button-bg); border-radius: 4px; color: var(--color-accent-1);
-    &:hover { background: var(--color-floating-button-hover-bg); }
+    background: var(--color-surface); border-radius: 4px; color: var(--color-accent-1);
+    &:hover { background: var(--color-surface-hover); }
     .svg-icon { flex-shrink: 0; }
     span { min-width: 0; }
   }
@@ -58,7 +75,7 @@
 // Shared appearance of floating controls and their panels.
 .floating-button {
   display: flex; align-items: center; justify-content: center; box-sizing: border-box;
-  width: 44px; height: 44px; margin: 0; padding: 0; border: 0; border-radius: 4px;
+  width: $control-size; height: var(--control-height); margin: 0; padding: 0; border: 0; border-radius: 4px;
   background: none; color: var(--color-accent-1); text-decoration: none; cursor: pointer;
 }
 summary.floating-button {
@@ -66,18 +83,26 @@ summary.floating-button {
   &::-webkit-details-marker { display: none; }
 }
 .floating-panel {
-  border: 2px solid color-mix(in srgb,var(--color-background-code) 45%,var(--color-meta));
-  border-radius: 4px; background: var(--color-background-code);
+  border: 2px solid color-mix(in srgb,var(--color-surface) 45%,var(--color-meta));
+  border-radius: 4px; background: var(--color-surface);
 }
 .floating-controls, .floating-share, .reading-top, .medium-toc-toggle { display: none; }
 .floating-menu { position: relative; }
 .floating-menu-dropdown {
-  position: absolute; top: calc(100% + 8px); right: 0; min-width: 160px; padding: 4px 8px;
-  ul { list-style: none; margin: 0; padding: 0; }
+  position: absolute; top: 0; right: calc(100% + 8px);
+  box-sizing: border-box; width: max-content; max-width: calc(100vw - 64px); height: 44px; padding: 2px 4px; overflow-x: auto;
+  border: 0;
+  ul { display: flex; align-items: center; height: 100%; list-style: none; margin: 0; padding: 0; }
+  li { position: relative; padding: 0 12px; }
+  li + li::before {
+    content: ""; position: absolute; top: 12px; bottom: 12px; left: 0;
+    border-left: 1px dotted var(--color-accent-1); pointer-events: none;
+  }
+  li:last-child { padding-right: 8px; }
   a {
-    display: flex; align-items: center; height: 32px; padding: 0 12px;
-    color: var(--color-accent-1); font-size: 13px; text-decoration: none;
-    &:hover { background: var(--color-floating-button-hover-bg); }
+    display: flex; align-items: center; justify-content: center; min-height: 36px;
+    color: var(--color-accent-1); font-size: .8rem; text-decoration: none; white-space: nowrap;
+    &:hover { background: none; text-decoration: underline; }
   }
 }
 .share-dropdown {
@@ -93,25 +118,45 @@ summary.floating-button {
 }
 @media (min-width: 800px) {
   .floating-controls {
-    position: fixed; top: 24px; right: 32px; z-index: 35;
-    display: grid; grid-template-columns: repeat(3,44px); grid-template-rows: repeat(2,44px); gap: 8px;
+    position: fixed; top: $control-top; right: $control-edge; z-index: 35;
+    display: grid; grid-template-columns: repeat(3,$control-size); grid-template-rows: repeat(2,var(--control-height)); gap: var(--control-gap);
     .site-controls { display: contents; }
     .svg-icon { width: 20px; height: 20px; }
     .floating-home { grid-column: 1; grid-row: 2; }
     .floating-article-prev { grid-column: 2; grid-row: 2; }
     .floating-article-next { grid-column: 3; grid-row: 2; }
     // Override the inline header controls without ID specificity.
-    .site-controls button { width: 44px; height: 44px; margin: 0; color: var(--color-accent-1); }
+    .site-controls button { width: $control-size; height: var(--control-height); margin: 0; color: var(--color-accent-1); }
   }
-  .floating-share { position: fixed; right: 84px; bottom: 32px; z-index: 20; display: block; }
-  .reading-top { position: fixed; right: 32px; bottom: 32px; z-index: 20; display: flex; font-size: 22px; }
+  .floating-share { position: fixed; right: $control-edge + $control-size + $control-gap; bottom: $control-edge; z-index: 20; display: block; }
+  .reading-top { position: fixed; right: $control-edge; bottom: $control-edge; z-index: 20; display: flex; font-size: 22px; }
   .reading-top[hidden] { display: none; }
 }
 @media (min-width: 800px) and (max-width: 1279px) {
-  .medium-toc-toggle { position: fixed; right: 136px; bottom: 32px; z-index: 20; display: flex; }
-  .reading-layout .floating-button {
-    background: var(--color-floating-button-bg);
-    &:hover { background: var(--color-floating-button-hover-bg); }
+  .reading-layout {
+    // Reserve 80px for the outer margins and the 24px gap between groups.
+    // Nine full-size buttons need 476px including that reserved space.
+    // Spread extra height over seven internal gaps and one extra group gap.
+    --control-height: clamp(24px,calc((100dvh - #{$control-reserved-height}) / #{$control-count}),#{$control-size});
+    --control-gap: clamp(0px,calc((100dvh - #{$control-full-height}) / #{$control-count - 1}),#{$control-gap});
+    --toc-control-bottom: calc(#{$control-edge} + 2 * var(--control-step));
+  }
+  // Keep a narrow rail for the controls so they never cover article text.
+  .reading-shell { padding-right: $control-panel-offset; }
+  .floating-controls {
+    grid-template-columns: $control-size; grid-template-rows: repeat(6,var(--control-height));
+    .floating-menu { grid-column: 1; grid-row: 1; }
+    .dark-mode-toggle-btn { grid-column: 1; grid-row: 2; }
+    .bganim-toggle-btn { grid-column: 1; grid-row: 3; }
+    .floating-home { grid-column: 1; grid-row: 4; }
+    .floating-article-prev { grid-column: 1; grid-row: 5; }
+    .floating-article-next { grid-column: 1; grid-row: 6; }
+  }
+  .medium-toc-toggle { position: fixed; right: $control-edge; bottom: var(--toc-control-bottom); z-index: 20; display: flex; }
+  .floating-share { right: $control-edge; bottom: calc(#{$control-edge} + var(--control-step)); }
+  .share-dropdown {
+    right: calc(100% + #{$panel-gap}); bottom: 0;
+    max-height: calc(100dvh - #{$control-edge + $control-top} - var(--control-step)); overflow-y: auto;
   }
 }
 
@@ -139,7 +184,7 @@ summary.floating-button {
   details { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
 }
 @media (min-width: 800px) {
-  .reading-toc { position: fixed; right: 32px; text-align: right; }
+  .reading-toc { position: fixed; right: $control-edge; text-align: right; }
 }
 @media (min-width: 1280px) {
   .reading-toc {
@@ -151,8 +196,8 @@ summary.floating-button {
 }
 @media (min-width: 800px) and (max-width: 1279px) {
   .reading-toc {
-    bottom: 88px; z-index: 19; box-sizing: border-box; width: max-content;
-    max-width: min(320px,calc(100vw - 64px)); max-height: min(60vh,560px);
+    right: $control-panel-offset; bottom: var(--toc-control-bottom); z-index: 19; box-sizing: border-box; width: max-content;
+    max-width: min(320px,calc(100vw - #{$control-panel-offset + $control-edge})); max-height: min(60dvh,560px,calc(100dvh - var(--toc-control-bottom) - #{$control-top}));
     margin: 0; padding: 12px 16px; overflow: auto;
     nav ul { padding-inline-start: 20px; }
     nav > ul { padding-inline-start: 0; }
@@ -170,7 +215,7 @@ summary.floating-button {
   .article-pagination > a { min-height: 56px; padding: 10px 12px; font-size: 11px; }
   .reading-toolbar {
     display: block; position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
-    padding-bottom: env(safe-area-inset-bottom); background: var(--color-footer-mobile-1);
+    padding-bottom: env(safe-area-inset-bottom); background: var(--color-surface);
     border-top: 1px solid var(--color-border); transition: transform .2s ease,visibility .2s;
     &.scroll-hidden { transform: translateY(100%); visibility: hidden; }
   }
@@ -189,7 +234,7 @@ summary.floating-button {
   .reading-mobile-panel:not([hidden]) {
     display: block; position: fixed; z-index: 29; bottom: calc(56px + env(safe-area-inset-bottom));
     left: 0; right: 0; max-height: 60vh; max-height: 60dvh; overflow: auto;
-    background: var(--color-footer-mobile-2); padding: 16px 0;
+    background: var(--color-surface); padding: 16px 0;
   }
   .reading-mobile-panel {
     .reading-nav {
@@ -209,6 +254,7 @@ summary.floating-button {
     }
     .reading-toc {
       position: static; width: auto; margin: 0; text-align: left;
+      border: 0; border-radius: 0; background: none;
       details { max-height: none; overflow: visible; }
       nav ul { margin: 0; padding-inline-start: 20px; }
       nav li { line-height: 30px; }

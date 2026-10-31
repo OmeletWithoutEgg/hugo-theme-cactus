@@ -1,9 +1,8 @@
 @use "sass:color";
 
 $color-background: #fafafa;
-$color-footer-mobile-1: color.adjust($color-background, $lightness: -2%, $space: hsl);
-$color-footer-mobile-2: color.adjust($color-background, $lightness: -10%, $space: hsl);
-$color-background-code: color.adjust($color-background, $lightness: -2%, $space: hsl);
+$color-surface: color.adjust($color-background, $lightness: -2%, $space: hsl);
+$color-surface-hover: color.adjust($color-background, $lightness: -6%, $space: hsl);
 $color-border: #666;
 $color-meta: #666;
 $color-meta-code: color.adjust($color-meta, $lightness: 10%, $space: hsl);
@@ -18,11 +17,8 @@ $color-quote: #cc2a41;
 
 [data-theme="classic"] {
   --color-background: #{$color-background};
-  --color-floating-button-bg: color-mix(in srgb, var(--color-meta) 7%, var(--color-background));
-  --color-floating-button-hover-bg: color-mix(in srgb, var(--color-meta) 14%, var(--color-background));
-  --color-footer-mobile-1: #{$color-footer-mobile-1};
-  --color-footer-mobile-2: #{$color-footer-mobile-2};
-  --color-background-code: #{$color-background-code};
+  --color-surface: #{$color-surface};
+  --color-surface-hover: #{$color-surface-hover};
   --color-border: #{$color-border};
   --color-meta: #{$color-meta};
   --color-meta-code: #{$color-meta-code};
