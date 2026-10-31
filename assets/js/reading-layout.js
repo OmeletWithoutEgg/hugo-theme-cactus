@@ -44,6 +44,16 @@ function initReadingLayout() {
     }
   }
 
+  function initToolbarSize() {
+    // Follow wrapping and font changes instead of assuming a fixed row count.
+    const observer = new ResizeObserver(() => {
+      if (toolbar.offsetHeight > 0) {
+        document.body.style.setProperty('--reading-toolbar-height', `${toolbar.offsetHeight}px`);
+      }
+    });
+    observer.observe(toolbar);
+  }
+
   function initMobilePanels() {
     toggles.forEach(button => {
       button.addEventListener("click", () => {
@@ -115,6 +125,7 @@ function initReadingLayout() {
   placeNavigation();
   mobile.addEventListener("change", placeNavigation);
   wide.addEventListener("change", placeNavigation);
+  initToolbarSize();
   initMobilePanels();
   initToc();
   initScrollControls();

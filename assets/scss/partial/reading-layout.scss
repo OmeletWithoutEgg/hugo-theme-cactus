@@ -1,5 +1,6 @@
 // Shared geometry for the reading controls.
 $control-size: 44px;
+$control-min-size: 24px;
 $control-gap: 8px;
 $control-edge: 32px;
 $control-top: 24px;
@@ -13,6 +14,9 @@ $control-full-height: $control-count * $control-size + $control-reserved-height;
 // Reading page structure.
 .reading-layout {
   --control-height: #{$control-size};
+  --control-top: #{$control-top};
+  --control-bottom: #{$control-edge};
+  --reading-toolbar-height: calc(57px + env(safe-area-inset-bottom));
   --control-gap: #{$control-gap};
   --control-step: calc(var(--control-height) + var(--control-gap));
   height: auto; min-height: 100vh;
@@ -23,7 +27,7 @@ $control-full-height: $control-count * $control-size + $control-reserved-height;
 .reading-grid main { min-width: 0; scroll-margin-top: 88px; }
 .reading-layout article header .post-title { font-size: 24px; line-height: 1.5; margin-bottom: 12px; }
 .reading-layout article header .meta { line-height: 1.9; margin-bottom: 28px; }
-.reading-layout article .content { min-height: 0; line-height: 1.85; }
+.reading-layout article .content { min-height: 0; font-size: 15px; line-height: 1.85; }
 .reading-layout :is(h2,h3,h4,h5,h6)[id] { scroll-margin-top: 88px; }
 .reading-layout .site-footer { padding: 32px 0 40px; margin: 0; }
 
@@ -118,7 +122,7 @@ summary.floating-button {
 }
 @media (min-width: 800px) {
   .floating-controls {
-    position: fixed; top: $control-top; right: $control-edge; z-index: 35;
+    position: fixed; top: var(--control-top); right: $control-edge; z-index: 35;
     display: grid; grid-template-columns: repeat(3,$control-size); grid-template-rows: repeat(2,var(--control-height)); gap: var(--control-gap);
     .site-controls { display: contents; }
     .svg-icon { width: 20px; height: 20px; }
@@ -128,8 +132,8 @@ summary.floating-button {
     // Override the inline header controls without ID specificity.
     .site-controls button { width: $control-size; height: var(--control-height); margin: 0; color: var(--color-accent-1); }
   }
-  .floating-share { position: fixed; right: $control-edge + $control-size + $control-gap; bottom: $control-edge; z-index: 20; display: block; }
-  .reading-top { position: fixed; right: $control-edge; bottom: $control-edge; z-index: 20; display: flex; font-size: 22px; }
+  .floating-share { position: fixed; right: $control-edge + $control-size + $control-gap; bottom: var(--control-bottom); z-index: 20; display: block; }
+  .reading-top { position: fixed; right: $control-edge; bottom: var(--control-bottom); z-index: 20; display: flex; font-size: 22px; }
   .reading-top[hidden] { display: none; }
 }
 @media (min-width: 800px) and (max-width: 1279px) {
@@ -137,9 +141,12 @@ summary.floating-button {
     // Reserve 80px for the outer margins and the 24px gap between groups.
     // Nine full-size buttons need 476px including that reserved space.
     // Spread extra height over seven internal gaps and one extra group gap.
-    --control-height: clamp(24px,calc((100dvh - #{$control-reserved-height}) / #{$control-count}),#{$control-size});
+    --control-height: clamp(#{$control-min-size},calc((100dvh - #{$control-reserved-height}) / #{$control-count}),#{$control-size});
     --control-gap: clamp(0px,calc((100dvh - #{$control-full-height}) / #{$control-count - 1}),#{$control-gap});
-    --toc-control-bottom: calc(#{$control-edge} + 2 * var(--control-step));
+    // Once buttons reach 24px, compress outer margins before the groups collide.
+    --control-top: clamp(4px,calc((100dvh - #{$control-count * $control-min-size + $control-gap}) / 2),#{$control-top});
+    --control-bottom: clamp(4px,calc((100dvh - #{$control-count * $control-min-size + $control-gap}) / 2),#{$control-edge});
+    --toc-control-bottom: calc(var(--control-bottom) + 2 * var(--control-step));
   }
   // Keep a narrow rail for the controls so they never cover article text.
   .reading-shell { padding-right: $control-panel-offset; }
@@ -153,10 +160,10 @@ summary.floating-button {
     .floating-article-next { grid-column: 1; grid-row: 6; }
   }
   .medium-toc-toggle { position: fixed; right: $control-edge; bottom: var(--toc-control-bottom); z-index: 20; display: flex; }
-  .floating-share { right: $control-edge; bottom: calc(#{$control-edge} + var(--control-step)); }
+  .floating-share { right: $control-edge; bottom: calc(var(--control-bottom) + var(--control-step)); }
   .share-dropdown {
     right: calc(100% + #{$panel-gap}); bottom: 0;
-    max-height: calc(100dvh - #{$control-edge + $control-top} - var(--control-step)); overflow-y: auto;
+    max-height: calc(100dvh - var(--control-bottom) - var(--control-top) - var(--control-step)); overflow-y: auto;
   }
 }
 
@@ -197,7 +204,7 @@ summary.floating-button {
 @media (min-width: 800px) and (max-width: 1279px) {
   .reading-toc {
     right: $control-panel-offset; bottom: var(--toc-control-bottom); z-index: 19; box-sizing: border-box; width: max-content;
-    max-width: min(320px,calc(100vw - #{$control-panel-offset + $control-edge})); max-height: min(60dvh,560px,calc(100dvh - var(--toc-control-bottom) - #{$control-top}));
+    max-width: min(320px,calc(100vw - #{$control-panel-offset + $control-edge})); max-height: min(60dvh,560px,calc(100dvh - var(--toc-control-bottom) - var(--control-top)));
     margin: 0; padding: 12px 16px; overflow: auto;
     nav ul { padding-inline-start: 20px; }
     nav > ul { padding-inline-start: 0; }
@@ -207,7 +214,7 @@ summary.floating-button {
 // Mobile toolbar and panels.
 .reading-toolbar, .reading-mobile-panel { display: none; }
 @media (max-width: 799px) {
-  .reading-layout { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .reading-layout { padding-bottom: calc(var(--reading-toolbar-height) + 20px); }
   .reading-shell { padding-left: 24px; padding-right: 24px; }
   .reading-grid { padding-top: 40px; padding-bottom: 48px; }
   .reading-layout article header .post-title { font-size: 22px; }
@@ -220,19 +227,26 @@ summary.floating-button {
     &.scroll-hidden { transform: translateY(100%); visibility: hidden; }
   }
   .toolbar-inner {
-    display: flex; justify-content: center; align-items: center; gap: 0;
-    padding: 0 16px; margin: 16px auto; white-space: nowrap;
+    display: grid; grid-template-columns: $control-size minmax(0,1fr) $control-size; align-items: center;
+    padding: 0 16px; margin: 6px auto; white-space: nowrap;
     .mobile-panel-toggle, a {
-      display: inline-block; padding: 0 0 0 16px; min-height: 0;
-      font: inherit; line-height: 1.725; color: var(--color-accent-1);
+      display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+      width: $control-size; height: $control-size; padding: 0;
+      font: inherit; color: var(--color-accent-1);
     }
     a { text-decoration: none; }
-    .svg-icon { vertical-align: -.125em; }
+    .svg-icon { flex-shrink: 0; }
     [hidden] { display: none; }
   }
+  .toolbar-article-slot { width: $control-size; height: $control-size; }
+  .toolbar-actions {
+    display: flex; flex-wrap: wrap; justify-content: center; min-width: 0; gap: 0 16px;
+    .mobile-panel-toggle, a { flex: none; width: auto; min-width: $control-size; gap: 4px; font-size: 14px; line-height: 1.725; }
+  }
+  .toolbar-actions .mobile-top[hidden] { display: flex; visibility: hidden; }
   .mobile-panel-toggle { border: 0; background: none; cursor: pointer; }
   .reading-mobile-panel:not([hidden]) {
-    display: block; position: fixed; z-index: 29; bottom: calc(56px + env(safe-area-inset-bottom));
+    display: block; position: fixed; z-index: 29; bottom: var(--reading-toolbar-height);
     left: 0; right: 0; max-height: 60vh; max-height: 60dvh; overflow: auto;
     background: var(--color-surface); padding: 16px 0;
   }
