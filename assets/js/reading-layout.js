@@ -46,12 +46,13 @@ function initReadingLayout() {
 
   function initToolbarSize() {
     // Follow wrapping and font changes instead of assuming a fixed row count.
-    const observer = new ResizeObserver(() => {
-      if (toolbar.offsetHeight > 0) {
-        document.body.style.setProperty('--reading-toolbar-height', `${toolbar.offsetHeight}px`);
+    const observer = new ResizeObserver(([entry]) => {
+      const height = entry.borderBoxSize[0].blockSize;
+      if (height > 0) {
+        document.body.style.setProperty('--reading-toolbar-height', `${height}px`);
       }
     });
-    observer.observe(toolbar);
+    observer.observe(toolbar, { box: "border-box" });
   }
 
   function initMobilePanels() {
@@ -108,17 +109,18 @@ function initReadingLayout() {
   function initScrollControls() {
     const top = document.querySelector(".reading-top");
     const mobileTop = document.querySelector(".mobile-top");
-    let lastScrollTop = window.scrollY;
-    function updateScrollControls() {
+    let lastScrollTop = 0;
+    function updateScrollControls(event) {
       const current = Math.max(0, window.scrollY);
+      if (event.type === "pageshow") lastScrollTop = current;
       const panelOpen = toggles.some(button => button.getAttribute("aria-expanded") === "true");
       toolbar.classList.toggle("scroll-hidden", mobile.matches && !panelOpen && current > 60 && current > lastScrollTop);
       top.hidden = current < 200;
       mobileTop.hidden = current < 100;
       lastScrollTop = current;
     }
-    updateScrollControls();
     window.addEventListener("scroll", updateScrollControls, { passive: true });
+    // Wait for page layout (including restored scroll) before reading scrollY.
     window.addEventListener("pageshow", updateScrollControls);
   }
 

@@ -21,21 +21,29 @@ export function createMovingPoints({ canvas, config = {} }) {
   canvas.style.left = canvas.style.left || "0";
   canvas.style.pointerEvents = "none";
 
-  function setCanvasSize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  setCanvasSize();
-
-  const points = Array.from({ length: count }, () => {
-    const theta = Math.random() * 2 * Math.PI;
-    return {
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: 1.5 * Math.cos(theta),
-      vy: 1.5 * Math.sin(theta),
-    };
+  let points = [];
+  // Assumes CSS explicitly sizes the canvas independently of its width/height
+  // attributes (the theme uses viewport units). Otherwise updating the drawing
+  // buffer below could resize the element and trigger an observer feedback loop.
+  // Reuse the observed size instead of forcing layout with viewport measurements.
+  const sizeObserver = new ResizeObserver(([entry]) => {
+    const { width, height } = entry.contentRect;
+    if (width <= 0 || height <= 0) return;
+    canvas.width = Math.round(width);
+    canvas.height = Math.round(height);
+    if (points.length === 0) {
+      points = Array.from({ length: count }, () => {
+        const theta = Math.random() * 2 * Math.PI;
+        return {
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: 1.5 * Math.cos(theta),
+          vy: 1.5 * Math.sin(theta),
+        };
+      });
+    }
   });
+  sizeObserver.observe(canvas);
 
   function getDist(a, b) {
     return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
@@ -115,7 +123,6 @@ export function createMovingPoints({ canvas, config = {} }) {
     draw();
   }
 
-  window.addEventListener("resize", setCanvasSize);
   window.addEventListener("mousemove", e => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;

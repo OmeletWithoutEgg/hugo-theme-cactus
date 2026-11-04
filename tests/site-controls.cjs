@@ -34,7 +34,7 @@ async function setup(theme, saved = {}, blocked = false) {
     },
     window: {
       innerWidth: 1000,
-      matchMedia: () => ({ matches: false, addEventListener() {} }),
+      matchMedia: query => ({ matches: query === "(min-width: 480px)", addEventListener() {} }),
       addEventListener: (event, handler) => { events[event] = handler; },
     },
     localStorage: {

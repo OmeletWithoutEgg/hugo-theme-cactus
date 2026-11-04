@@ -41,7 +41,7 @@ function initMovingPoints() {
 }
 function getSavedEnabledState() {
   const saved = readPreference('bganim-enabled');
-  const defaultEnabled = window.innerWidth >= 480
+  const defaultEnabled = window.matchMedia("(min-width: 480px)").matches
     && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const savedEnabled = saved === 'true';
   return saved === null ? defaultEnabled : savedEnabled;
