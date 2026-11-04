@@ -323,6 +323,9 @@ The site config is ignored when `comments` option exists in front matter.
 
 The default engine is Disqus. Utterances and Cactus Comments are also supported; see the provider settings in [the example configuration](hugo.toml).
 
+Disqus loads when the reader approaches the comments (within 600px), or clicks
+"Load comments". Failed script downloads can be retried using the same button.
+
 Before using disqus, you need to register and get your [disqus shortname](https://help.disqus.com/en/articles/1717111-what-s-a-shortname). Set `services.disqus.shortname` in your site configuration.
 
 ```toml
