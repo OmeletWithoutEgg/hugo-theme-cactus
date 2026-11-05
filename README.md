@@ -56,9 +56,9 @@ hugo --minify
 Build output and caches (`public/`, `resources/`, `.hugo_build.lock`) are ignored.
 The demo is tested with Hugo 0.169.0. Its `locale` setting requires Hugo 0.158.0 or later.
 Comments and analytics are disabled until configured. The four sample posts cover
-multilingual Markdown typography, code blocks, MathJax, and bilingual public-domain
+multilingual Markdown typography, code blocks, static KaTeX mathematics, and bilingual public-domain
 lyrics. Goldmark passthrough preserves TeX
-notation; only the mathematics post enables MathJax.
+notation; the math stylesheet is loaded only on pages containing formulas.
 
 ### Deploy the demo to GitHub Pages
 
@@ -417,20 +417,38 @@ The rss link will be `https://example.com/index.xml` assuming your `baseURL` is 
 
 Please also check [Configure RSS](https://gohugo.io/templates/rss/#configure-rss)
 
-### Mathjax
+### Mathematics
 
-Cactus supports mathjax. Just add `mathjax` option in your site config:
+Cactus renders TeX at build time with Hugo's `transform.ToMath` (KaTeX),
+producing HTML and MathML without browser-side math JavaScript. Requires Hugo
+0.147.7 or newer. KaTeX 0.18.4 CSS and WOFF2 fonts are bundled locally; the
+stylesheet is loaded only on pages containing formulas.
+
+Enable Goldmark passthrough in your site configuration (also included in the demo):
+
 ```toml
-[params]
-  mathjax = true  # not required
+[markup.goldmark.extensions.passthrough]
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    block = [['\[', '\]'], ['$$', '$$']]
+    inline = [['\(', '\)'], ['$', '$']]
 ```
 
-You can also enable/disable mathjax per post. In your posts' front matter, add:
-```yaml
-mathjax: true # or false
-```
+Use `$a^2 + b^2 = c^2$` or `\(a^2 + b^2 = c^2\)` inline, and `$$...$$`
+or `\[...\]` for display equations. Code spans and fenced code blocks remain
+literal. Formulas in headings also render in the table of contents.
 
-The site config will be ignored when `mathjax` option exists in front matter.
+The old `mathjax` site/front matter setting is no longer used: math is detected
+from the content. Existing formulas may need their old Markdown escaping removed:
+write `x^*` instead of `x^\*`, `\{` instead of `\\{`, and `\%` instead of `\\%`.
+Use `aligned` or `gathered` with `\\` for multiline equations, and `\text{文字}`
+for prose inside formulas. With `$` delimiters enabled, write a literal dollar
+sign as `&#36;` or inside a code span.
+
+Unsupported formulas fail the build with their source location. Nonstandard TeX
+produces warnings; these are not silently suppressed. The theme's heading hook
+stores rendered titles for the TOC, so custom heading hooks should preserve the
+`renderedHeadings` store entry if they need formulas in the TOC.
 
 ### Archive 
 Pagination on posts archive can be disabled to show all posts in chronological order
@@ -451,7 +469,6 @@ Pagination on posts archive can be disabled to show all posts in chronological o
 - [ ] toc template
 - [ ] Customizable copyright year
 - [ ] gallery
-- [ ] expose [mathjax configuration](https://docs.mathjax.org/en/latest/web/configuration.html#web-configuration) 
 
 ## License
 

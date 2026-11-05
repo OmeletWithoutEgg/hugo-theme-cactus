@@ -86,10 +86,11 @@ article {
     margin-block: 3em;
   }
   .content a.image-original { display: block; }
-  .content mjx-container[display="true"] {
+  .content .katex-display {
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
+    padding-block: 2px;
   }
 }
 .article-tag {

@@ -5,8 +5,8 @@ description = "A clean, responsive hugo theme for personal blog. Forked from hex
 homepage = "https://github.com/monkeyWzr/hugo-theme-cactus"
 demosite = "https://omeletwithoutegg.github.io/hugo-theme-cactus/"
 tags = ["blog", "responsive", "clean"]
-features = ["mathjax", "customizable", "color"]
-min_version = "0.146.0"
+features = ["katex", "customizable", "color"]
+min_version = "0.147.7"
 
 # If the theme has a single author
 [author]

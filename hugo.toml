@@ -38,7 +38,7 @@ weight = 4
     wrapStandAloneImageWithinParagraph = false
     [markup.goldmark.parser.attribute]
       block = true
-  # Preserve TeX delimiters and backslashes for the MathJax demo.
+  # Preserve TeX for build-time KaTeX rendering.
   [markup.goldmark.extensions.passthrough]
     enable = true
     [markup.goldmark.extensions.passthrough.delimiters]

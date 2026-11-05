@@ -38,6 +38,12 @@
     {{- partial "asset-style.html" ($styles | resources.Concat "css/style.css") }}
   {{- end }}
 
+  {{/* Force content rendering before checking the math render hook's flag. */}}
+  {{ $content := .Content }}
+  {{ if .Store.Get "hasMath" }}
+    {{ partial "asset-style.html" (resources.Get "lib/katex/katex.css") }}
+  {{ end }}
+
   {{ partial "optional-head.html" . }}
 
   {{ if .Site.Params.rss }}

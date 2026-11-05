@@ -1,0 +1,6 @@
+{{- if strings.Contains .Text `class="katex"` -}}
+  {{/* TOC entries are links themselves; do not nest links from a heading. */}}
+  {{- $title := replaceRE `</?a(?:\s[^>]*)?>` "" .Text -}}
+  {{- .Page.Store.SetInMap "renderedHeadings" .Anchor $title -}}
+{{- end -}}
+<h{{ .Level }} id="{{ .Anchor }}"{{ range $k, $v := .Attributes }} {{ printf "%s=%q" $k $v | safeHTMLAttr }}{{ end }}>{{ .Text }}</h{{ .Level }}>

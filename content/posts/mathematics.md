@@ -1,14 +1,14 @@
 ---
-title: "MathJax examples"
+title: "Mathematics examples"
 date: 2024-01-01T12:00:00Z
-tags: [math, mathjax]
-mathjax: true
+tags: [math, katex]
+aliases: ["/posts/mathjax/"]
 draft: false
 ---
 
-Lorem ipsum dolor sit amet. This page enables MathJax in its front matter; the other sample posts do not load it.
+Lorem ipsum dolor sit amet. Hugo renders these formulas with KaTeX at build time. Pages without formulas do not load the math stylesheet.
 
-## Inline mathematics
+## Inline mathematics: $e^{i\pi} + 1 = 0$
 
 The identity \(e^{i\pi} + 1 = 0\) sits inside a paragraph. Subscripts and superscripts, such as \(a_n = n^2\), should remain aligned with the surrounding text.
 

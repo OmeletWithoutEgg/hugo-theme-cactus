@@ -1,4 +1,4 @@
-{{ $toc := .TableOfContents }}
+{{ $toc := partial "math-toc.html" . }}
 {{ $hasTOC := gt (len (findRE "<a\\s" $toc)) 0 }}
 <!doctype html>
 <html lang="{{ site.Language.Locale }}" data-theme="{{ site.Params.colortheme | default "dark" }}">
@@ -119,27 +119,5 @@
 <a class="reading-top floating-button" href="#top" data-scroll-top aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up") }}</a>
 {{ partial "scripts.html" . }}
 {{ partial "asset-script.html" (dict "path" "js/reading-layout.js") }}
-    {{ $mathjax := false }}
-    {{ if isset .Params "mathjax" }}
-      {{ $mathjax = .Params.mathjax }}
-    {{ else if isset .Site.Params "mathjax" }}
-      {{ $mathjax = .Site.Params.mathjax }}
-    {{ end }}
-    {{ if $mathjax }}
-      <script>
-        MathJax = {
-          tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']]
-          },
-          svg: {
-            fontCache: 'global'
-          }
-        };
-      </script>
-      <script type="text/javascript" id="MathJax-script" async
-                                     src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-chtml.js">
-      </script>
-    {{ end }}
-
 {{ partial "optional-body.html" . }}
 </body></html>

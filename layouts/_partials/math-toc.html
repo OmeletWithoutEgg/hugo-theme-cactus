@@ -1,0 +1,10 @@
+{{/* Reuse rendered headings because Hugo TOC titles retain raw TeX. */}}
+{{- $content := .Content -}}
+{{- $toc := .TableOfContents -}}
+{{- $headings := .Store.Get "renderedHeadings" | default dict -}}
+{{- range $id, $heading := .Fragments.HeadingsMap -}}
+  {{- with index $headings $id -}}
+    {{- $toc = replace $toc (printf ">%s</a>" $heading.Title) (printf ">%s</a>" .) -}}
+  {{- end -}}
+{{- end -}}
+{{- return ($toc | safeHTML) -}}
