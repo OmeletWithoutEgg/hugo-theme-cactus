@@ -10,6 +10,7 @@
 {{- $width := 0 -}}
 {{- $height := 0 -}}
 {{- $srcset := slice -}}
+{{- $original := "" -}}
 {{- $loading := .Attributes.loading | default "lazy" -}}
 {{- if not (in (slice "lazy" "eager") $loading) -}}
   {{- errorf "Invalid image loading value %q at %s; use lazy or eager" $loading .Position -}}
@@ -17,6 +18,9 @@
 {{- $eager := eq $loading "eager" -}}
 {{- with $image -}}
   {{- if in (slice "image/jpeg" "image/png" "image/webp") .MediaType.Type -}}
+    {{- $original = .RelPermalink -}}
+    {{- $encoding := "webp q80" -}}
+    {{- if eq .MediaType.Type "image/png" }}{{ $encoding = "webp lossless" }}{{ end -}}
     {{/* Correct camera orientation before calculating dimensions or resizing. */}}
     {{- $oriented := .Filter images.AutoOrient -}}
     {{- $width = $oriented.Width -}}
@@ -24,7 +28,7 @@
     {{- $maxWidth := math.Min 1600 $width | int -}}
     {{- range (slice 480 640 800 1200 $maxWidth | uniq | sort) -}}
       {{- if le . $maxWidth -}}
-        {{- $resized := $oriented.Resize (printf "%dx webp q80" .) -}}
+        {{- $resized := $oriented.Resize (printf "%dx %s" . $encoding) -}}
         {{- $srcset = $srcset | append (printf "%s %dw" $resized.RelPermalink $resized.Width) -}}
         {{- $src = $resized.RelPermalink -}}
       {{- end -}}
@@ -45,10 +49,13 @@
 {{ else if .IsBlock }}
 <p>
 {{ end -}}
+{{- $linkOriginal := and .IsBlock $original -}}
+{{- if $linkOriginal }}<a class="image-original" href="{{ $original }}" aria-label="View original image{{ with .PlainText }}: {{ . }}{{ end }}">{{ end -}}
 <img src="{{ $src | safeURL }}" alt="{{ .PlainText }}"
   {{- with $srcset }} srcset="{{ delimit . ", " }}" sizes="{{ $sizes }}"{{ end }}
   {{- if $width }} width="{{ $width }}" height="{{ $height }}"{{ end }}
   loading="{{ $loading }}" decoding="async">
+{{- if $linkOriginal }}</a>{{ end -}}
 {{- with .Title }}
   <figcaption>{{ . }}</figcaption>
 </figure>

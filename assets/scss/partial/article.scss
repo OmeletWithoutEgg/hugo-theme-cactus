@@ -85,6 +85,7 @@ article {
   .content > figure.markdown-image {
     margin-block: 3em;
   }
+  .content a.image-original { display: block; }
   .content mjx-container[display="true"] {
     max-width: 100%;
     overflow-x: auto;

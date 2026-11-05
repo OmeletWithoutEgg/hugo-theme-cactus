@@ -1,0 +1,19 @@
+{{- $src := .Get "src" -}}
+{{- with .Page.Resources.Get $src }}{{ $src = .RelPermalink }}{{ end -}}
+{{- $poster := .Get "poster" -}}
+{{- with $poster -}}
+  {{- with $.Page.Resources.Get . }}{{ $poster = .RelPermalink }}{{ end -}}
+{{- end -}}
+<figure class="markdown-image">
+  <video controls playsinline preload="none"
+    {{- with $poster }} poster="{{ . }}"{{ end }}
+    {{- with .Get "width" }} width="{{ . }}"{{ end }}
+    {{- with .Get "height" }} height="{{ . }}"{{ end }}
+    {{- if .Get "loop" }} loop{{ end }}
+    {{- if .Get "muted" }} muted{{ end }}
+    {{- with .Get "caption" }} aria-label="{{ . }}"{{ end }}>
+    <source src="{{ $src | safeURL }}" type="video/mp4">
+    <a href="{{ $src | safeURL }}">Download video</a>
+  </video>
+  {{- with .Get "caption" }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>

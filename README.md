@@ -337,6 +337,10 @@ Before using disqus, you need to register and get your [disqus shortname](https:
 
 JPEG, PNG, and WebP images in page bundles or `assets/` get responsive WebP versions
 up to 1600px wide, with camera orientation corrected and dimensions reserved.
+PNG sources use lossless WebP encoding to avoid compression artifacts in screenshots
+and diagrams; resizing still reduces detail. Standalone processed images link to
+their original files for full-resolution viewing. Images already inside Markdown
+links keep their existing link destinations.
 Markdown images use native lazy loading by default. For an important image visible
 above the fold, set its loading attribute explicitly:
 
@@ -359,6 +363,17 @@ options in your site's configuration so the render hook can read image attribute
 The hook preserves paragraph spacing for images without captions. No front matter
 setting is needed. Supported loading values are `lazy` and `eager`.
 GIFs retain their animation. External images and files in `static/` retain their original URLs.
+
+### Local video
+
+Use the `video` shortcode for MP4 files in a page bundle:
+
+```text
+{{< video src="clip.mp4" poster="poster.webp" width="1200" height="676" caption="Video description" >}}
+```
+
+The player has controls and uses `preload="none"`; playback starts on request.
+Optional `loop=true` and `muted=true` are useful for clips converted from GIFs.
 
 ### highlight
 
