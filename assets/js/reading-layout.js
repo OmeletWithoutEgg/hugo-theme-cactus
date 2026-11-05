@@ -1,3 +1,5 @@
+import { createPanel, initPanelDismissal } from "./navigation/panels.js";
+
 function initReadingLayout() {
   const mobile = window.matchMedia("(max-width: 799px)");
   const wide = window.matchMedia("(min-width: 1280px)");
@@ -7,18 +9,22 @@ function initReadingLayout() {
   const toc = document.querySelector(".reading-toc");
   const tocButton = document.querySelector(".medium-toc-toggle");
   const toolbar = document.querySelector(".reading-toolbar");
-  const panels = [...document.querySelectorAll(".reading-mobile-panel")];
   const toggles = [...document.querySelectorAll(".mobile-panel-toggle:not(:disabled)")];
 
+  const panels = toggles.map(button => createPanel(
+    document.getElementById(button.getAttribute("aria-controls")), button,
+    { isActive: () => mobile.matches, focusOnOpen: true },
+  ));
+  const tocPanel = toc ? createPanel(toc, tocButton, { isActive: isMedium }) : null;
+  const dropdowns = [...document.querySelectorAll(".floating-share, .floating-menu")]
+    .map(element => createPanel(element, element.querySelector("summary")));
+
   function closePanels() {
-    panels.forEach(panel => { panel.hidden = true; });
-    toggles.forEach(button => button.setAttribute("aria-expanded", "false"));
+    panels.forEach(panel => panel.setOpen(false));
   }
 
   function setTocVisible(visible) {
-    if (!toc) return;
-    toc.hidden = !visible;
-    tocButton?.setAttribute("aria-expanded", String(visible));
+    tocPanel?.setOpen(visible);
   }
 
   function isMedium() {
@@ -56,41 +62,18 @@ function initReadingLayout() {
   }
 
   function initMobilePanels() {
-    toggles.forEach(button => {
-      button.addEventListener("click", () => {
-        const panel = document.getElementById(button.getAttribute("aria-controls"));
-        const opening = panel.hidden;
+    panels.forEach(panel => {
+      panel.trigger.addEventListener("click", () => {
+        const opening = !panel.isOpen();
         closePanels();
-        panel.hidden = !opening;
-        button.setAttribute("aria-expanded", String(opening));
-        if (opening) panel.querySelector("button, a, .panel-empty")?.focus();
+        panel.setOpen(opening);
       });
-    });
-    document.addEventListener("keydown", event => {
-      if (event.key !== "Escape") return;
-      const open = toggles.find(button => button.getAttribute("aria-expanded") === "true");
-      closePanels();
-      open?.focus();
-    });
-    document.addEventListener("click", event => {
-      if (!event.target.closest(".reading-mobile-panel, .mobile-panel-toggle")) closePanels();
     });
   }
 
   function initToc() {
     if (!toc) return;
     tocButton?.addEventListener("click", () => setTocVisible(toc.hidden));
-    document.addEventListener("click", event => {
-      if (isMedium() && !event.target.closest(".reading-toc, .medium-toc-toggle")) {
-        setTocVisible(false);
-      }
-    });
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && isMedium() && !toc.hidden) {
-        setTocVisible(false);
-        tocButton?.focus();
-      }
-    });
     toc.addEventListener("click", event => {
       const link = event.target.closest('a[href^="#"]');
       if (!link) return;
@@ -151,18 +134,19 @@ function initReadingLayout() {
   initMobilePanels();
   initToc();
   initScrollControls();
-  document.querySelectorAll(".floating-share, .floating-menu").forEach(initDropdown);
+  initPanelDismissal([...panels, ...dropdowns, ...(tocPanel ? [tocPanel] : [])]);
+  initScrollToTop();
 }
 
-function initDropdown(dropdown) {
-  document.addEventListener("click", event => {
-    if (!dropdown.contains(event.target)) dropdown.open = false;
-  });
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && dropdown.open) {
-      dropdown.open = false;
-      dropdown.querySelector("summary").focus();
-    }
+function initScrollToTop() {
+  document.querySelectorAll("[data-scroll-top]").forEach(control => {
+    control.addEventListener("click", event => {
+      event.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      });
+    });
   });
 }
 

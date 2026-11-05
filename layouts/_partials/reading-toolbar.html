@@ -1,0 +1,14 @@
+<nav class="reading-toolbar" aria-label="Reading controls"><div class="reading-shell toolbar-inner">
+ <span class="toolbar-article-slot">
+  {{ with .PrevInSection }}<a href="{{ .RelPermalink }}" aria-label="Previous: {{ .Title }}" title="Previous: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-left") }}</a>{{ end }}
+ </span>
+ <div class="toolbar-actions">
+  <button class="mobile-panel-toggle mobile-menu-toggle" type="button" aria-controls="mobile-menu-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "bars" "size" "lg") }} Menu</button>
+  <button class="mobile-panel-toggle mobile-toc-toggle" type="button" aria-controls="mobile-toc-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "list" "size" "lg") }} TOC</button>
+  <button class="mobile-panel-toggle" type="button" aria-controls="mobile-share-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "share-alt" "size" "lg") }} share</button>
+  <button type="button" data-scroll-top class="mobile-top" aria-label="Back to top" disabled>{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }} Top</button>
+ </div>
+ <span class="toolbar-article-slot">
+  {{ with .NextInSection }}<a href="{{ .RelPermalink }}" aria-label="Next: {{ .Title }}" title="Next: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-right") }}</a>{{ end }}
+ </span>
+ </div></nav>

@@ -1,0 +1,12 @@
+<nav class="floating-controls" aria-label="Page controls">
+ <details class="floating-menu">
+  <summary class="floating-button" aria-label="Main navigation" title="Main navigation">{{ partial "icon.html" (dict "name" "bars") }}</summary>
+  <nav class="floating-menu-dropdown floating-panel" aria-label="Main navigation">
+   <ul>{{ range site.Menus.main }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}</ul>
+  </nav>
+ </details>
+ <div class="site-controls">{{ partial "site-controls.html" (dict "floating" true) }}</div>
+ <a class="floating-home floating-button" href="{{ site.Home.RelPermalink }}" aria-label="Home" title="Home">{{ partial "icon.html" (dict "name" "home") }}</a>
+ {{ with .PrevInSection }}<a href="{{ .RelPermalink }}" class="floating-article-prev floating-button" aria-label="Previous: {{ .Title }}" title="Previous: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-left") }}</a>{{ end }}
+ {{ with .NextInSection }}<a href="{{ .RelPermalink }}" class="floating-article-next floating-button" aria-label="Next: {{ .Title }}" title="Next: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-right") }}</a>{{ end }}
+</nav>

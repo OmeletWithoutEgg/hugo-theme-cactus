@@ -112,8 +112,6 @@ body {
 }
 
 @include meta.load-css("partial/header");
-@include meta.load-css("partial/post/actions-desktop");
-@include meta.load-css("partial/post/actions-mobile");
 @include meta.load-css("partial/index");
 @include meta.load-css("partial/article");
 @include meta.load-css("partial/comments");

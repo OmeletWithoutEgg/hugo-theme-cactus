@@ -29,12 +29,14 @@ The public search index URL remains `/index.json`.
 ## Naming conventions
 
 Custom template and stylesheet filenames, HTML classes/IDs, and Scratch keys use
-kebab-case (for example, `page-nav.html`, `actions-desktop.scss`, and `post-title`).
+kebab-case (for example, `reading-toolbar.html`, `reading-layout.scss`, and `post-title`).
 Local template and JavaScript variables use camelCase. Hugo/Sass special names and
 external identifiers retain their required spelling.
 
-Site overrides should use `page-nav.html` / `page-nav-mobile.html` and
-`comments/cactus-comments.html`. Custom CSS targeting the old `posttitle`,
+Post navigation overrides use `reading-controls.html` (floating controls) and
+`reading-toolbar.html` (mobile toolbar). Article metadata is in `post-metadata.html`;
+comments use `comments/cactus-comments.html`. The old `page-nav.html` and
+`page-nav-mobile.html` partials are no longer used. Custom CSS targeting the old `posttitle`,
 `postdate`, or `tagcloud` classes should use `post-title`, `post-date`, or `tag-cloud`.
 The existing `cactus_comments` comment-engine setting is unchanged.
 
@@ -59,6 +61,31 @@ Comments and analytics are disabled until configured. The four sample posts cove
 multilingual Markdown typography, code blocks, static KaTeX mathematics, and bilingual public-domain
 lyrics. Goldmark passthrough preserves TeX
 notation; the math stylesheet is loaded only on pages containing formulas.
+
+### Tests
+
+With Node.js 22.12 or newer, Python 3, Hugo and Dart Sass installed, run from the theme root:
+
+```sh
+npm ci
+npx puppeteer browsers install chrome
+npm test
+npm run test:browser
+```
+
+The npm dependencies are for development only; publishing the theme still only
+requires Hugo and Dart Sass. The browser install command ensures the matching
+Chrome is available even when npm blocks dependency install scripts. To use an
+existing Chrome instead, skip that command and set `PUPPETEER_SKIP_DOWNLOAD=true`
+when installing and `PUPPETEER_EXECUTABLE_PATH=/path/to/chrome` when running tests.
+Use `CHROME_NO_SANDBOX=1` only in environments where Chrome's sandbox cannot run.
+
+The browser test builds temporary articles with and without a TOC, serves them
+on an available local port under `/preview/`, and checks responsive navigation,
+focus restoration, scroll controls, adjacent articles and breakpoint transitions.
+It does not depend on a running Hugo server or the parent blog. Failed browser
+runs save a screenshot and HTML in `test-results/`; temporary builds and servers
+are cleaned up automatically.
 
 ### Deploy the demo to GitHub Pages
 

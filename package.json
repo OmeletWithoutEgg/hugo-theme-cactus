@@ -1,0 +1,14 @@
+{
+  "name": "cactus-theme-tests",
+  "private": true,
+  "scripts": {
+    "test": "node --experimental-vm-modules tests/navigation.cjs && node --experimental-vm-modules tests/site-controls.cjs && python3 tests/mathematics.py",
+    "test:browser": "node tests/reading-layout.cjs"
+  },
+  "devDependencies": {
+    "puppeteer": "25.16.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
