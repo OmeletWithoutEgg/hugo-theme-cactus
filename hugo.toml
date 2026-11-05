@@ -33,6 +33,11 @@ url = "/about/"
 weight = 4
 
 [markup]
+  # Expose attributes on standalone Markdown images to their render hook.
+  [markup.goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
+    [markup.goldmark.parser.attribute]
+      block = true
   # Preserve TeX delimiters and backslashes for the MathJax demo.
   [markup.goldmark.extensions.passthrough]
     enable = true

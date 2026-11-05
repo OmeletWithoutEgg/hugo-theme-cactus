@@ -333,6 +333,33 @@ Before using disqus, you need to register and get your [disqus shortname](https:
   shortname = "your-disqus-shortname"
 ```
 
+### Markdown images
+
+JPEG, PNG, and WebP images in page bundles or `assets/` get responsive WebP versions
+up to 1600px wide, with camera orientation corrected and dimensions reserved.
+Markdown images use native lazy loading by default. For an important image visible
+above the fold, set its loading attribute explicitly:
+
+```markdown
+![Image description](photo.jpg)
+{loading="eager"}
+```
+
+Place the image on its own line and the attribute directly below it. Enable these
+options in your site's configuration so the render hook can read image attributes
+(the theme's demo already includes them):
+
+```toml
+[markup.goldmark.parser]
+  wrapStandAloneImageWithinParagraph = false
+  [markup.goldmark.parser.attribute]
+    block = true
+```
+
+The hook preserves paragraph spacing for images without captions. No front matter
+setting is needed. Supported loading values are `lazy` and `eager`.
+GIFs retain their animation. External images and files in `static/` retain their original URLs.
+
 ### highlight
 
 Use hugo's built-in [syntax highlighting](https://gohugo.io/getting-started/configuration-markup#highlight).

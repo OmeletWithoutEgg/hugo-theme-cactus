@@ -1,8 +1,57 @@
-{{ if .Title }}
-  <figure>
-    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}">
-    <figcaption>{{ .Title }}</figcaption>
-  </figure>
+{{- $src := .Destination -}}
+{{- $url := urls.Parse .Destination -}}
+{{- $image := false -}}
+{{- if and (not $url.IsAbs) (not $url.Host) -}}
+  {{- $image = .PageInner.Resources.Get $url.Path -}}
+  {{- if not $image -}}
+    {{- $image = resources.Get $url.Path -}}
+  {{- end -}}
+{{- end -}}
+{{- $width := 0 -}}
+{{- $height := 0 -}}
+{{- $srcset := slice -}}
+{{- $loading := .Attributes.loading | default "lazy" -}}
+{{- if not (in (slice "lazy" "eager") $loading) -}}
+  {{- errorf "Invalid image loading value %q at %s; use lazy or eager" $loading .Position -}}
+{{- end -}}
+{{- $eager := eq $loading "eager" -}}
+{{- with $image -}}
+  {{- if in (slice "image/jpeg" "image/png" "image/webp") .MediaType.Type -}}
+    {{/* Correct camera orientation before calculating dimensions or resizing. */}}
+    {{- $oriented := .Filter images.AutoOrient -}}
+    {{- $width = $oriented.Width -}}
+    {{- $height = $oriented.Height -}}
+    {{- $maxWidth := math.Min 1600 $width | int -}}
+    {{- range (slice 480 640 800 1200 $maxWidth | uniq | sort) -}}
+      {{- if le . $maxWidth -}}
+        {{- $resized := $oriented.Resize (printf "%dx webp q80" .) -}}
+        {{- $srcset = $srcset | append (printf "%s %dw" $resized.RelPermalink $resized.Width) -}}
+        {{- $src = $resized.RelPermalink -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else if eq .MediaType.Type "image/gif" -}}
+    {{- $width = .Width -}}
+    {{- $height = .Height -}}
+  {{- end -}}
+{{- end -}}
+{{/* Lazy images use their actual CSS width. The fallback follows reading-shell
+     padding and the browser's default 40px inline margins on captioned figures. */}}
+{{- $figureMargins := 0 -}}
+{{- if .Title }}{{ $figureMargins = 80 }}{{ end -}}
+{{- $sizes := printf "(max-width: 799px) calc(min(100vw, 768px) - %dpx), (max-width: 1279px) %dpx, %dpx" (add 48 $figureMargins) (sub 648 $figureMargins) (sub 704 $figureMargins) -}}
+{{- if not $eager }}{{ $sizes = printf "auto, %s" $sizes }}{{ end -}}
+{{- if .Title }}
+<figure{{ if .IsBlock }} class="markdown-image"{{ end }}>
+{{ else if .IsBlock }}
+<p>
+{{ end -}}
+<img src="{{ $src | safeURL }}" alt="{{ .PlainText }}"
+  {{- with $srcset }} srcset="{{ delimit . ", " }}" sizes="{{ $sizes }}"{{ end }}
+  {{- if $width }} width="{{ $width }}" height="{{ $height }}"{{ end }}
+  loading="{{ $loading }}" decoding="async">
+{{- with .Title }}
+  <figcaption>{{ . }}</figcaption>
+</figure>
 {{ else }}
-  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}">
-{{ end }}
+  {{- if .IsBlock }}</p>{{ end -}}
+{{ end -}}

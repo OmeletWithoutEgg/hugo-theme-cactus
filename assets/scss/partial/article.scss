@@ -81,6 +81,10 @@ article {
     max-width: 100%;
     height: auto;
   }
+  // Preserve captioned-image spacing without the old empty paragraph wrappers.
+  .content > figure.markdown-image {
+    margin-block: 3em;
+  }
 }
 .article-tag {
   .tag-link {
