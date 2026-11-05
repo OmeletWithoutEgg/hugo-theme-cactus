@@ -85,6 +85,11 @@ article {
   .content > figure.markdown-image {
     margin-block: 3em;
   }
+  .content mjx-container[display="true"] {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
 }
 .article-tag {
   .tag-link {

@@ -8,7 +8,7 @@ function initReadingLayout() {
   const tocButton = document.querySelector(".medium-toc-toggle");
   const toolbar = document.querySelector(".reading-toolbar");
   const panels = [...document.querySelectorAll(".reading-mobile-panel")];
-  const toggles = [...document.querySelectorAll(".mobile-panel-toggle")];
+  const toggles = [...document.querySelectorAll(".mobile-panel-toggle:not(:disabled)")];
 
   function closePanels() {
     panels.forEach(panel => { panel.hidden = true; });
@@ -63,7 +63,7 @@ function initReadingLayout() {
         closePanels();
         panel.hidden = !opening;
         button.setAttribute("aria-expanded", String(opening));
-        if (opening) panel.querySelector("button, a")?.focus();
+        if (opening) panel.querySelector("button, a, .panel-empty")?.focus();
       });
     });
     document.addEventListener("keydown", event => {
@@ -110,14 +110,34 @@ function initReadingLayout() {
     const top = document.querySelector(".reading-top");
     const mobileTop = document.querySelector(".mobile-top");
     let lastScrollTop = 0;
+    let direction = 0;
+    let distance = 0;
     function updateScrollControls(event) {
       const current = Math.max(0, window.scrollY);
-      if (event.type === "pageshow") lastScrollTop = current;
-      const panelOpen = toggles.some(button => button.getAttribute("aria-expanded") === "true");
-      toolbar.classList.toggle("scroll-hidden", mobile.matches && !panelOpen && current > 60 && current > lastScrollTop);
-      top.hidden = current < 200;
-      mobileTop.hidden = current < 100;
+      const delta = current - lastScrollTop;
       lastScrollTop = current;
+      top.hidden = current < 200;
+      mobileTop.disabled = current === 0;
+      if (event.type === "pageshow") {
+        direction = 0;
+        distance = 0;
+        return;
+      }
+      const panelOpen = toggles.some(button => button.getAttribute("aria-expanded") === "true");
+      if (!mobile.matches || panelOpen || current <= 60) {
+        toolbar.classList.remove("scroll-hidden");
+        direction = 0;
+        distance = 0;
+        return;
+      }
+      if (delta === 0) return;
+      const nextDirection = Math.sign(delta);
+      if (nextDirection !== direction) distance = 0;
+      direction = nextDirection;
+      distance += Math.abs(delta);
+      // Reveal with a short upward gesture; ignore small downward corrections.
+      if (direction < 0 && distance >= 8) toolbar.classList.remove("scroll-hidden");
+      if (direction > 0 && distance >= 48) toolbar.classList.add("scroll-hidden");
     }
     window.addEventListener("scroll", updateScrollControls, { passive: true });
     // Wait for page layout (including restored scroll) before reading scrollY.

@@ -1,3 +1,3 @@
 <div class="reading-mobile-panel" id="mobile-menu-panel" hidden><div class="panel-content"></div></div>
-<div class="reading-mobile-panel" id="mobile-toc-panel" hidden><div class="panel-content"></div></div>
-<div class="reading-mobile-panel mobile-share-panel" id="mobile-share-panel" hidden><div class="panel-content">{{ partial "share.html" . }}</div></div>
+<div class="reading-mobile-panel" id="mobile-toc-panel" hidden><div class="panel-content">{{ if not .hasTOC }}<p class="panel-empty" tabindex="-1">No table of contents</p>{{ end }}</div></div>
+<div class="reading-mobile-panel mobile-share-panel" id="mobile-share-panel" hidden><div class="panel-content">{{ partial "share.html" .page }}</div></div>

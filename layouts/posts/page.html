@@ -26,15 +26,15 @@
  </span>
  <div class="toolbar-actions">
   <button class="mobile-panel-toggle mobile-menu-toggle" type="button" aria-controls="mobile-menu-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "bars" "size" "lg") }} Menu</button>
-  {{ if $hasTOC }}<button class="mobile-panel-toggle mobile-toc-toggle" type="button" aria-controls="mobile-toc-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "list" "size" "lg") }} TOC</button>{{ end }}
+  <button class="mobile-panel-toggle mobile-toc-toggle" type="button" aria-controls="mobile-toc-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "list" "size" "lg") }} TOC</button>
   <button class="mobile-panel-toggle" type="button" aria-controls="mobile-share-panel" aria-expanded="false">{{ partial "icon.html" (dict "name" "share-alt" "size" "lg") }} share</button>
-  <a href="#top" data-scroll-top class="mobile-top" aria-label="Back to top" hidden>{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }} Top</a>
+  <button type="button" data-scroll-top class="mobile-top" aria-label="Back to top" disabled>{{ partial "icon.html" (dict "name" "chevron-up" "size" "lg") }} Top</button>
  </div>
  <span class="toolbar-article-slot">
   {{ with .NextInSection }}<a href="{{ .RelPermalink }}" aria-label="Next: {{ .Title }}" title="Next: {{ .Title }}">{{ partial "icon.html" (dict "name" "chevron-right") }}</a>{{ end }}
  </span>
  </div></nav>
-{{ partial "reading-panels.html" . }}
+{{ partial "reading-panels.html" (dict "page" . "hasTOC" $hasTOC) }}
 <div class="reading-shell reading-grid">
 {{ if $hasTOC }}
 <aside class="reading-toc floating-panel" hidden aria-label="Table of contents">
@@ -77,19 +77,23 @@
             {{ if gt .Params.categories 0 }}
               <div class="article-category">
                 {{ partial "icon.html" (dict "name" "archive") }}
+                <span class="meta-links">
                 {{ range $index, $value := .Params.categories }}
                   {{ if gt $index 0 }} {{ print ", " }} {{ end }}
                   <a class="category-link" href="{{ "/categories/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
                 {{ end }}
+                </span>
               </div>
             {{ end }}
             {{ with .GetTerms "tags" }}
               <div class="article-tag">
                 {{ partial "icon.html" (dict "name" "tag") }}
+                <span class="meta-links">
                 {{ range $index, $term := . }}
                   {{ if gt $index 0 }} {{ print ", " }} {{ end }}
                   <a class="tag-link" href="{{ $term.RelPermalink }}" rel="tag">{{ $term.Data.Term }}</a>
                 {{ end }}
+                </span>
               </div>
             {{ end }}
           </div>

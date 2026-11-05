@@ -53,7 +53,11 @@ $control-full-height: $control-count * $control-size + $control-reserved-height;
       display: flex; align-items: center; gap: 4px;
     }
     > .article-read-time { flex: 0 0 100%; }
-    > .article-category, > .article-tag { flex: 0 0 auto; }
+    > .article-category, > .article-tag {
+      flex: 0 1 100%; min-width: 0; max-width: 100%; align-items: baseline;
+      > .svg-icon { flex: none; }
+      > .meta-links { min-width: 0; overflow-wrap: anywhere; }
+    }
     > .post-date > .svg-icon { width: 1em; height: 1em; flex: none; }
     .article-read-time::before, .article-category::before, .article-tag::before { content: none; }
   }
@@ -228,9 +232,10 @@ summary.floating-button {
     &.scroll-hidden { transform: translateY(100%); visibility: hidden; }
   }
   .toolbar-inner {
+    container-type: inline-size;
     display: grid; grid-template-columns: $control-size minmax(0,1fr) $control-size; align-items: center;
     padding: 0 16px; margin: 6px auto; white-space: nowrap;
-    .mobile-panel-toggle, a {
+    button, a {
       display: flex; align-items: center; justify-content: center; box-sizing: border-box;
       width: $control-size; height: $control-size; padding: 0;
       font: inherit; color: var(--color-accent-1);
@@ -241,17 +246,21 @@ summary.floating-button {
   }
   .toolbar-article-slot { width: $control-size; height: $control-size; }
   .toolbar-actions {
-    display: flex; flex-wrap: wrap; justify-content: center; min-width: 0; gap: 0 16px;
-    .mobile-panel-toggle, a { flex: none; width: auto; min-width: $control-size; gap: 4px; font-size: 14px; line-height: 1.725; }
+    display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); min-width: 0;
+    button { width: 100%; min-width: $control-size; gap: 4px; font-size: 14px; line-height: 1.725; border: 0; background: none; cursor: pointer; }
+    button:disabled { opacity: .45; cursor: default; }
   }
-  .toolbar-actions .mobile-top[hidden] { display: flex; visibility: hidden; }
-  .mobile-panel-toggle { border: 0; background: none; cursor: pointer; }
+  // Four 70px action slots plus the two 44px article-navigation slots.
+  @container (min-width: 368px) {
+    .toolbar-actions { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  }
   .reading-mobile-panel:not([hidden]) {
     display: block; position: fixed; z-index: 29; bottom: var(--reading-toolbar-height);
     left: 0; right: 0; max-height: 60vh; max-height: 60dvh; overflow: auto;
     background: var(--color-surface); padding: 16px 0;
   }
   .reading-mobile-panel {
+    .panel-empty { margin: 0; padding: 8px 24px; color: var(--color-meta); text-align: center; }
     .reading-nav {
       ul { display: block; list-style: none; text-align: center; padding: 0 16px; margin: 0; }
       li { display: inline-block; margin: 0; padding: 10px; }
