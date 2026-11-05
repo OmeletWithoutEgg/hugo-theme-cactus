@@ -111,12 +111,6 @@ body {
   }
 }
 
-@media (min-width: 480px) {
-  p {
-    text-align: justify;
-  }
-}
-
 @include meta.load-css("partial/header");
 @include meta.load-css("partial/post/actions-desktop");
 @include meta.load-css("partial/post/actions-mobile");
