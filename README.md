@@ -316,10 +316,10 @@ for example, `data/projects.json`:
 
 The `name` key selects a bundled SVG in `assets/icons/`; `email`, `rss`, and `scholar` are also supported. Add custom icons to your site's `assets/icons/` directory. Missing icons fall back to a link icon with a build warning.
 
-Bundled Font Awesome Free icons include their [license](assets/icons/LICENSE.txt).
-The icon partial converts embedded attribution comments to SVG `<desc>` text so
+Bundled Font Awesome Free 7.3.1 icons include their [license](assets/icons/LICENSE.txt).
+The icon partial converts embedded attribution comments to an SVG `data-license` attribute so
 attribution survives Hugo's default minification. No site-level `keepComments`
-setting is required. Icons remain `aria-hidden` and the description is not displayed.
+setting is required. Icons remain `aria-hidden` and the attribution is not displayed.
 
 ### Copyright
 
